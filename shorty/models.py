@@ -40,6 +40,9 @@ class ShortURL(db.Model, AutoInitModelMixin):
     created = db.Column(db.DateTime, default=datetime.now)
     clicks = db.relationship("Click")
 
+    def __repr__(self):
+        return "<ShortURL: '%s'>" % self.long_url
+
 
 class Click(db.Model, AutoInitModelMixin):
     url_id = db.Column(db.Integer, db.ForeignKey('shorturl.id'))
@@ -47,3 +50,7 @@ class Click(db.Model, AutoInitModelMixin):
     time = db.Column(db.DateTime, default=datetime.now)
     #TODO: locate originating country/city
     #TODO: parse the user-agent to extract OS/browser_name/browser_version
+
+    def __repr__(self):
+        url = ShortURL.query.filter_by(id=self.url_id).first()
+        return "<Click on '%s'>" % url
