@@ -27,3 +27,17 @@ class AutoInitModelMixin(object):
                 else:
                     if hasattr(attr_obj, 'default'):
                         setattr(self, attr, attr_obj.default)
+
+
+class ShortURL(db.Model, AutoInitModelMixin):
+    long_url = db.Column(db.String(255), unique=True)
+    url_code = db.Column(db.String(32), unique=True) #XXX: is this really needed?
+    created = db.Column(db.DateTime)
+    clicks = db.relationship("Click")
+
+
+class Click(db.Model, AutoInitModelMixin):
+    url_id = db.Column(db.Integer, db.ForeignKey('shorturl.id'))
+    user_agent = db.Column(db.String(255))
+    time = db.Column(db.DateTime)
+    #TODO: locate originating country/city
