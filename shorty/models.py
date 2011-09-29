@@ -26,7 +26,10 @@ class AutoInitModelMixin(object):
                     setattr(self, attr, kwargs[attr])
                 else:
                     if hasattr(attr_obj, 'default'):
-                        setattr(self, attr, attr_obj.default)
+                        if callable(attr_obj.default):
+                            setattr(self, attr, attr_obj.default())
+                        else:
+                            setattr(self, attr, attr_obj.default)
 
 
 class ShortURL(db.Model, AutoInitModelMixin):
