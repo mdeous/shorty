@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Shorty - {% block title %}{% endblock %}</title>
+    <!-- JavaScript -->
+    <script type="text/javascript" src="{{ JS_PATH }}/shorty.js"></script>
+    <!-- END JavaScript -->
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ CSS_PATH }}/shorty.css" />
+</head>
+
+<body>
+<div class="container">
+    <div id="header">
+        {% include 'header.html' %}
+    </div>
+    <div id="content">
+        {% block body %}{% endblock %}
+    </div>
+    <div id="footer">
+    </div>
+</div>
+</body>
+</html>
