@@ -3,7 +3,7 @@
 
 from flaskext.script import Command, Manager
 
-from shorty import app
+from shorty import app, db
 
 manager = Manager(app)
 
@@ -16,6 +16,14 @@ class RunServer(Command):
         app.run(port=8000)
 
 
+class SetupDB(Command):
+    """Initialize the database tables."""
+    def run(self):
+        db.create_all()
+        db.session.commit()
+
+
 del manager._commands['runserver']
 manager.add_command('runserver', RunServer())
+manager.add_command('setupdb', SetupDB())
 manager.run()
