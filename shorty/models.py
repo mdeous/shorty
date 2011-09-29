@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+
 from sqlalchemy.ext.declarative import declared_attr
 
 from shorty import db
@@ -35,12 +37,13 @@ class AutoInitModelMixin(object):
 class ShortURL(db.Model, AutoInitModelMixin):
     long_url = db.Column(db.String(255), unique=True)
     url_code = db.Column(db.String(32), unique=True) #XXX: is this really needed?
-    created = db.Column(db.DateTime)
+    created = db.Column(db.DateTime, default=datetime.now)
     clicks = db.relationship("Click")
 
 
 class Click(db.Model, AutoInitModelMixin):
     url_id = db.Column(db.Integer, db.ForeignKey('shorturl.id'))
-    user_agent = db.Column(db.String(255))
-    time = db.Column(db.DateTime)
+    user_agent = db.Column(db.String(255), default='Unknown')
+    time = db.Column(db.DateTime, default=datetime.now)
     #TODO: locate originating country/city
+    #TODO: parse the user-agent to extract OS/browser_name/browser_version
