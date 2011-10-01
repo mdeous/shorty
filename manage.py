@@ -16,14 +16,15 @@ class RunServer(Command):
         app.run(port=8000)
 
 
-class SetupDB(Command):
+class SyncDB(Command):
     """Initialize the database tables."""
     def run(self):
+        db.drop_all()
         db.create_all()
         db.session.commit()
 
 
 del manager._commands['runserver']
 manager.add_command('runserver', RunServer())
-manager.add_command('setupdb', SetupDB())
+manager.add_command('syncdb', SyncDB())
 manager.run()
