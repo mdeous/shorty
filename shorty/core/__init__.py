@@ -2,11 +2,18 @@
 
 def setup_routing(app, routes):
     """
-    Given the current `Flask` application and a list of routes (a route being
-    a tuple where the first element is a '(blueprint_obj, url_prefix)' tuple (or
-    None if routes don't belong to a blueprint) and all the other elements being
-    '(route, view_func)' tuples, add all the routes and register the blueprints
-    to which they belong.
+    Registers :class:`flask.Blueprint` instances and routes all at once.
+
+    :param app: The current application.
+    :type app: flask.Flask.
+    :param routes: The routes definition in the format:
+        ((blueprint_instance, url_prefix),
+            ('/route1/<param>', view_function1),
+            ('/route2', view_function2),
+            ...
+        )
+    :type routes: tuple.
+    :returns: None
     """
     for route in routes:
         endpoint, rules = route[0], route[1:]
