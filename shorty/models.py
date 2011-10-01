@@ -51,6 +51,9 @@ class Click(db.Model, AutoInitModelMixin):
     #TODO: locate originating country/city
     #TODO: parse the user-agent to extract OS/browser_name/browser_version
 
+    @property
+    def url(self):
+        return ShortURL.query.filter_by(id=self.url_id).one()
+
     def __repr__(self):
-        url = ShortURL.query.filter_by(id=self.url_id).first()
-        return "<Click on '%s'>" % url
+        return "<Click on '%s'>" % self.url
