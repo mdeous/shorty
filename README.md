@@ -13,7 +13,7 @@ Shorty is an URL shortener written in Python using the Flask framework.
 
 Install the required dependencies with `pip`
 
-    pip install -r dependencies.txt
+    pip install -r requirements.txt
 
 and then, to run it with the Flask's development server, use the `manage.py` script
 
