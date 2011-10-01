@@ -37,7 +37,7 @@ class AutoInitModelMixin(object):
 
 class ShortURL(db.Model, AutoInitModelMixin):
     long_url = db.Column(db.String(255), unique=True)
-    url_code = db.Column(db.String(32), unique=True) #XXX: is this really needed?
+    #url_code = db.Column(db.String(32), unique=True) #XXX: is this really needed?
     created = db.Column(db.DateTime, default=datetime.now)
     clicks = db.relationship("Click")
 
