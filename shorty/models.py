@@ -3,6 +3,7 @@
 from datetime import datetime
 
 from sqlalchemy.ext.declarative import declared_attr
+from werkzeug.utils import cached_property
 
 from shorty import db
 
@@ -51,7 +52,7 @@ class Click(db.Model, AutoInitModelMixin):
     #TODO: locate originating country/city
     #TODO: parse the user-agent to extract OS/browser_name/browser_version
 
-    @property
+    @cached_property
     def url(self):
         return ShortURL.query.filter_by(id=self.url_id).one()
 
