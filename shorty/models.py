@@ -57,4 +57,4 @@ class Click(db.Model, AutoInitModelMixin):
         return ShortURL.query.filter_by(id=self.url_id).one()
 
     def __repr__(self):
-        return "<Click on '%s'>" % self.url
+        return "<Click on '%s'>" % self.url.long_url
