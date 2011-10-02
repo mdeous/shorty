@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask.ext.script import Command, Manager
+from flask.ext.script import Command, Manager, Shell
 
 from shorty import app
 
@@ -19,5 +19,25 @@ class SyncDB(Command):
         db.session.commit()
 
 
+class FixedShell(Shell):
+    """
+    Runs a Python shell inside Flask application context.
+    """
+    def run(self, no_ipython):
+        context = self.get_context()
+        if not no_ipython:
+            try:
+                from IPython.frontend.terminal.embed import InteractiveShellEmbed
+                sh = InteractiveShellEmbed(banner1=self.banner)
+                sh(global_ns=dict(), local_ns=context)
+                return
+            except ImportError:
+                pass
+        from code import interact
+        interact(banner=self.banner, local=context)
+
+
+del manager._commands['shell']
+manager.add_command('shell', FixedShell())
 manager.add_command('syncdb', SyncDB())
 manager.run()
