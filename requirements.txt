@@ -1,4 +1,4 @@
-Flask
+Flask==0.8
 Flask-WTF
 Flask-SQLAlchemy
 Flask-Script

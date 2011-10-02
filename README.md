@@ -4,7 +4,7 @@ Shorty is an URL shortener written in Python using the Flask framework.
 
 ## Dependencies
 
-- Flask
+- Flask==0.8
 - Flask-WTF
 - Flask-SQLAlchemy
 - Flask-Script (only needed to run the application from the `manage.py` script)
