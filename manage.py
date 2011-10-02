@@ -1,30 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flaskext.script import Command, Manager
+from flask.ext.script import Command, Manager
 
-from shorty import app, db
+from shorty import app
 
 manager = Manager(app)
 
 
-class RunServer(Command):
-    """
-    Starts the application using Flask's integrated server.
-    """
-    def run(self):
-        app.run(port=8000)
-
-
 class SyncDB(Command):
-    """Initialize the database tables."""
+    """
+    Initializes the database tables.
+    """
     def run(self):
+        from shorty import db
         db.drop_all()
         db.create_all()
         db.session.commit()
 
 
-del manager._commands['runserver']
-manager.add_command('runserver', RunServer())
 manager.add_command('syncdb', SyncDB())
 manager.run()
