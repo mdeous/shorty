@@ -9,11 +9,9 @@ from shorty.core import setup_routing
 
 # setup application
 app = Flask('shorty')
-app.debug = settings.APP_DEBUG
-app.secret_key = settings.APP_SECRET_KEY
+app.config.from_object(settings)
 
 # setup database
-app.config['SQLALCHEMY_DATABASE_URI'] = settings.DATABASE_URI
 db = SQLAlchemy(app)
 
 # register application views and blueprints
