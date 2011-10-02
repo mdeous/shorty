@@ -2,7 +2,7 @@
 
 def setup_routing(app, routes):
     """
-    Registers :class:`flask.Blueprint` instances and routes all at once.
+    Registers :class:`flask.Blueprint` instances and adds routes all at once.
 
     :param app: The current application.
     :type app: flask.Flask.
