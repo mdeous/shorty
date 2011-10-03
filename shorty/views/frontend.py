@@ -3,7 +3,7 @@
 from flask import *
 from flask.views import MethodView
 
-main = Blueprint('main', __name__)
+frontend = Blueprint('frontend', __name__)
 
 
 class IndexView(MethodView):

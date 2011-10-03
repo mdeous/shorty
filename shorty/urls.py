@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from shorty.views.main import main, IndexView
+from shorty.views.frontend import frontend, IndexView
 
 routes = [
-    ((main, ''),
+    ((frontend, ''),
         ('/', IndexView.as_view('index')),
     ),
 ]
