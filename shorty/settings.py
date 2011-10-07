@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+SHORTY_HOSTNAME = 'localhost'
+
 DEBUG = True
 TESTING = False
 
