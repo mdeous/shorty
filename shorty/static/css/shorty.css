@@ -1,0 +1,12 @@
+body {
+    padding-top: 50px;
+}
+.container {
+    width: 820px;
+}
+.container, footer p {
+    text-align: center;
+}
+span.field-error {
+    font-size: 150%;
+}
