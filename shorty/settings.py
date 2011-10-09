@@ -6,7 +6,6 @@ DEBUG = True
 TESTING = False
 
 SECRET_KEY = 'DuMmY sEcReT kEy'
-SESSION_COOKIE_SECURE = True
 CSRF_ENABLED = True
 CSRF_SESSION_KEY = '_csrf_token'
 
