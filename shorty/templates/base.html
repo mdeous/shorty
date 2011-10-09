@@ -17,6 +17,15 @@
         {% include 'header.html' %}
     </div>
     <div id="content">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="flash" id="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
         {% block body %}{% endblock %}
     </div>
     <div id="footer">
