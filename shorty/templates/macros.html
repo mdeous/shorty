@@ -1,6 +1,8 @@
-{% macro render_field(field) %}
-    {{ field.label }} {{ field() }}
-    {% for error in field.errors %}
-        <div class="form_error">{{ error }}</div>
-    {% endfor %}
+{% macro render_field(field, with_label=True) %}
+    <div class="clearfix{% if field.errors %} error{% endif %}">
+        {% if with_label %}{{ field.label }} {% endif %}{{ field() }}
+        {% for error in field.errors %}
+            <span class="help-inline field-error">{{ error }}</span>
+        {% endfor %}
+    </div><br />
 {% endmacro %}
