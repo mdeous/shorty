@@ -1,2 +1,12 @@
 {% extends 'base.html' %}
-{% block body %}Hello World!{% endblock %}
+{% import 'macros.html' as macros %}
+{% block body %}
+<form method="POST" action="{{ url_for('frontend.index') }}">
+    {{ macros.render_field(form.url) }}<br />
+    {{ form.submit() }}
+    {{ form.hidden_tag() }}
+</form>
+{% if short_url %}
+    <a href="{{ short_url }}" class="shorturl">{{ short_url }}</a>
+{% endif %}
+{% endblock %}
