@@ -144,7 +144,7 @@ def expand_url(url):
     :type url: str.
     :returns: str -- the corresponding long URL.
     """
-    url_code = url.split('/')[-1]
+    url_code = url.split('/')[-1] if ('/' in url) else url
     url_id = UrlEncoder().decode_id(url_code)
     url_obj = ShortURL.query.filter_by(id=url_id).one()
     return url_obj.long_url
