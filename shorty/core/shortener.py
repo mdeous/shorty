@@ -6,6 +6,17 @@ from shorty import db
 from shorty.models import ShortURL
 
 
+class EncoderError(Exception):
+    """
+    Exception for errors that occur while encoding/decoding
+    a short URL.
+    """
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+
+
 class UrlEncoder(object):
     """
     Short URL Generator
@@ -115,7 +126,11 @@ class UrlEncoder(object):
         n = len(self.alphabet)
         result = 0
         for i, c in enumerate(reversed(x)):
-            result += self.alphabet.index(c) * (n ** i)
+            try:
+                result += self.alphabet.index(c) * (n ** i)
+            except ValueError:
+                raise EncoderError("Encoded value characters don't match the "
+                                   "defined alphabet.")
         return result
 
 
