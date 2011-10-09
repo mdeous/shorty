@@ -4,6 +4,6 @@ from flask.ext.wtf import Form, TextField, SubmitField
 from flask.ext.wtf import Required, Length, URL
 
 
-class ShortenForm(Form):
+class URLForm(Form):
     url = TextField('URL', [Required(), Length(max=255), URL()])
     submit = SubmitField('shorten')
