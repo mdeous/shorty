@@ -1,12 +1,26 @@
 {% extends 'base.html' %}
 {% import 'macros.html' as macros %}
 {% block body %}
-<form method="POST" action="{{ url_for('frontend.index') }}">
-    {{ macros.render_field(form.url) }}<br />
-    {{ form.submit() }}
-    {{ form.hidden_tag() }}
-</form>
-{% if short_url %}
-    <a href="{{ short_url }}" class="shorturl">{{ short_url }}</a>
-{% endif %}
+
+<div class="row">
+    <div class="span14">
+        <form method="POST" action="{{ url_for('frontend.index') }}">
+            <fieldset>
+                {{ macros.render_field(form.url, with_label=False) }}
+                <br />
+                <input class="btn primary" type="submit" value="Make It Short !">
+                {{ form.hidden_tag() }}
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span14">
+    {% if short_url %}
+        <h1><a href="{{ short_url }}" class="shorturl">{{ short_url }}</a></h1>
+    {% endif %}
+    </div>
+</div>
+
 {% endblock %}
