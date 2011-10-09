@@ -3,7 +3,7 @@
 from flask import *
 from flask.views import MethodView, View
 
-from shorty.core.shortener import shorten_url, expand_url
+from shorty.core.shortener import shorten_url, expand_url, EncoderError
 from shorty.forms import URLForm
 
 frontend = Blueprint('frontend', __name__)
@@ -33,5 +33,9 @@ class ShortLinkRedirectView(View):
     methods = ['GET']
 
     def dispatch_request(self, short_code):
-        long_url = expand_url(short_code)
-        return redirect(long_url)
+        try:
+            long_url = expand_url(short_code)
+            return redirect(long_url)
+        except EncoderError:
+            flash('Unknown short URL', category='error')
+            return redirect(url_for('frontend.index'))
