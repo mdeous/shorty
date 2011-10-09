@@ -13,10 +13,14 @@
 </head>
 
 <body>
-<div id="header">
-    {% include 'header.html' %}
+<div class="topbar">
+    <div class="fill">
+        <div class="container">
+            {% include 'header.html' %}
+        </div>
+    </div>
 </div>
-<div id="content">
+<div class="container">
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
             <ul class="flashes">
@@ -27,9 +31,9 @@
         {% endif %}
     {% endwith %}
     {% block body %}{% endblock %}
-</div>
-<div id="footer">
-    {% include 'footer.html' %}
+    <footer>
+        {% include 'footer.html' %}
+    </footer>
 </div>
 </body>
 </html>
