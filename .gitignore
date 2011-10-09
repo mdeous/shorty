@@ -4,4 +4,4 @@
 *~
 *.orig
 *.sqlite
-local_settings.py
+shorty/local_settings.py
