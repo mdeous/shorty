@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-SHORTY_HOSTNAME = 'localhost'
+BASE_URL = 'http://localhost'
 
 DEBUG = True
 TESTING = False
