@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-BASE_URL = 'http://localhost'
+BASE_URL = 'http://localhost:5000'
 
 DEBUG = True
 TESTING = False
