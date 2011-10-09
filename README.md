@@ -15,6 +15,10 @@ Install the required dependencies with `pip`
 
     pip install -r requirements.txt
 
+Set up the database
+
+    python manage.py syncdb
+
 and then, to run it with the Flask's development server, use the `manage.py` script
 
     python manage.py runserver
