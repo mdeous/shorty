@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask.ext.script import Command, Manager, Shell
+from flask.ext.script import Command, Manager, Shell, Option
 
 from shorty import app
 
@@ -65,8 +65,47 @@ class Test(Command):
         runner.run(test_suite)
 
 
+class RunCommand(Command):
+    """
+    Base class for commands used to run the application (ie. takes options
+    to specify the host/port).
+    """
+    def __init__(self, host='localhost', port=5000):
+        self.host = host
+        self.port = port
+
+    def get_options(self):
+        options = (
+            Option('-t', '--host',
+                   dest='host',
+                   default=self.host),
+            Option('-p', '--port',
+                   dest='port',
+                   type=int,
+                   default=self.port),
+        )
+        return options
+
+    def run(self, host, port):
+        raise NotImplementedError
+
+
+class RunTornado(RunCommand):
+    """
+    Serves the application using Tornado.
+    """
+    def run(self, host, port):
+        from tornado.wsgi import WSGIContainer
+        from tornado.httpserver import HTTPServer
+        from tornado.ioloop import IOLoop
+        http_server = HTTPServer(WSGIContainer(app))
+        http_server.listen(port=port, address=host)
+        IOLoop.instance().start()
+
+
 del manager._commands['shell']
 manager.add_command('shell', FixedShell())
 manager.add_command('syncdb', SyncDB())
 manager.add_command('test', Test())
+manager.add_command('tornado', RunTornado())
 manager.run()
