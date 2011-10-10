@@ -6,4 +6,5 @@ def static_files():
         STATIC_ROOT = STATIC_ROOT,
         CSS = '%s/css' % STATIC_ROOT,
         JS = '%s/js' % STATIC_ROOT,
+        MEDIA = '%s/media' % STATIC_ROOT
     )
