@@ -2,6 +2,11 @@
 
 Shorty is an URL shortener written in Python using the Flask framework.
 
+## License
+
+Shorty's source code is licensed under the [GNU General Public License]
+(https://www.gnu.org/licenses/gpl.txt).
+
 ## Dependencies
 
 - Flask==0.8
