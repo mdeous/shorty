@@ -1,3 +1,8 @@
+@font-face {
+    font-family: bgrove;
+    src: url('bgrove.ttf');
+}
+
 body {
     padding-top: 50px;
 }
@@ -9,4 +14,7 @@ body {
 }
 span.field-error {
     font-size: 150%;
+}
+a.shorturl {
+    font-family: bgrove;
 }
