@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
-BASE_URL = 'http://localhost'
+BASE_URL = 'http://localhost:5000'
 
 DEBUG = True
 TESTING = False
