@@ -13,3 +13,13 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
+
+from flask.ext.wtf import Form, TextField, SubmitField
+from flask.ext.wtf import Required, Length, URL
+
+from shorty.core.forms.widgets import XXLargeTextInput, SmallTextInput
+
+
+class URLForm(Form):
+    url = TextField('URL', [Required(), Length(max=255), URL()], widget=XXLargeTextInput())
+
