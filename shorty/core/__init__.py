@@ -14,6 +14,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
+
 def setup_routing(app, routes):
     """
     Registers :class:`flask.Blueprint` instances and adds routes all at once.
@@ -26,7 +27,7 @@ def setup_routing(app, routes):
             ('/route2', view_function2),
             ...
         )
-    :type routes: tuple.
+    :type routes: list.
     :returns: None
     """
     for route in routes:
@@ -40,3 +41,29 @@ def setup_routing(app, routes):
                 endpoint[0].add_url_rule(pattern, view_func=view)
         if endpoint is not None:
             app.register_blueprint(endpoint[0], url_prefix=endpoint[1])
+
+def create_app(settings_obj, **other_settings):
+    from flask import Flask
+    from shorty.context_processors import static_files
+
+    app = Flask('shorty')
+    app.config.from_object(settings_obj)
+    for key, val in other_settings.iteritems():
+        app.config[key] = val
+    app.context_processor(static_files)
+    return app
+
+def create_login_manager(app):
+    from flask.ext.login import LoginManager
+    from shorty.models import User
+
+    login_manager = LoginManager()
+    login_manager.setup_app(app)
+    login_manager.session_protection = 'strong'
+    login_manager.login_message = "You need to login"
+    login_manager.needs_refresh_message = "You need to re-authenticate"
+    login_manager.login_view = 'frontend.login'
+    login_manager.refresh_view = 'frontend.login'
+    login_manager.user_loader(lambda userid: User.query.get(int(userid)))
+    login_manager.token_loader(lambda token: User.from_token(token))
+    return login_manager

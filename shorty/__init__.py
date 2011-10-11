@@ -14,23 +14,20 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
 from shorty import settings
-from shorty.context_processors import static_files
-from shorty.core import setup_routing
+from shorty.core import create_app, create_login_manager, setup_routing
 
 # setup application
-app = Flask('shorty')
-app.config.from_object(settings)
+app = create_app(settings)
 
 # setup database
 db = SQLAlchemy(app)
 
-# register application views and blueprints
+# setup routes and blueprints
 from shorty.urls import routes
 setup_routing(app, routes)
 
-# register context processors
-app.context_processor(static_files)
+# setup the login manager
+login_manager = create_login_manager(app)
