@@ -58,16 +58,16 @@ class ShortURL(db.Model, AutoInitModelMixin):
         return "<ShortURL: '%s'>" % self.long_url
 
 
-class Click(db.Model, AutoInitModelMixin):
-    url_id = db.Column(db.Integer, db.ForeignKey('shorturl.id'))
-    user_agent = db.Column(db.String(255), default='Unknown')
-    time = db.Column(db.DateTime, default=datetime.now)
-    #TODO: locate originating country/city
-    #TODO: parse the user-agent to extract OS/browser_name/browser_version
-
-    @cached_property
-    def url(self):
-        return ShortURL.query.filter_by(id=self.url_id).one()
-
-    def __repr__(self):
-        return "<Click on '%s'>" % self.url.long_url
+#class Click(db.Model, AutoInitModelMixin):
+#    url_id = db.Column(db.Integer, db.ForeignKey('shorturl.id'))
+#    user_agent = db.Column(db.String(255), default='Unknown')
+#    time = db.Column(db.DateTime, default=datetime.now)
+#    #TODO: locate originating country/city
+#    #TODO: parse the user-agent to extract OS/browser_name/browser_version
+#
+#    @cached_property
+#    def url(self):
+#        return ShortURL.query.filter_by(id=self.url_id).one()
+#
+#    def __repr__(self):
+#        return "<Click on '%s'>" % self.url.long_url
