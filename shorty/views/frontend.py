@@ -18,7 +18,7 @@ from flask import *
 from flask.views import MethodView, View
 
 from shorty.core.shortener import shorten_url, expand_url, EncoderError
-from shorty.forms import URLForm
+from shorty.core.forms import URLForm
 
 frontend = Blueprint('frontend', __name__)
 
