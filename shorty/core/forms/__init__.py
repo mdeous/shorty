@@ -17,7 +17,7 @@
 from flask.ext.wtf import Form, TextField, SubmitField
 from flask.ext.wtf import Required, Length, URL
 
-from shorty.core.forms.widgets import XXLargeTextInput, SmallTextInput
+from shorty.core.forms.widgets import XXLargeTextInput
 
 
 class URLForm(Form):
