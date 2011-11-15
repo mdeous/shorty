@@ -17,6 +17,8 @@
 from flask import *
 from flask.views import MethodView, View
 
+from shorty.core.forms import RegisterForm
+
 users = Blueprint('users', __name__)
 
 
@@ -31,7 +33,11 @@ class RegisterView(MethodView):
     template = 'register.html'
 
     def get(self):
-        return render_template(self.template)
+        reg_form = RegisterForm()
+        return render_template(self.template, reg_form=reg_form)
 
     def post(self):
+        reg_form = RegisterForm()
+        if not reg_form.validate_on_submit():
+            return render_template(self.template, reg_form=reg_form)
         return redirect(url_for('users.register'))
