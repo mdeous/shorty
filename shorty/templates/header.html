@@ -18,6 +18,7 @@
 {% import "macros.html" as macros %}
 
 <a class="brand" href="{{ url_for('frontend.index') }}">Shorty</a>
+{% if login_form %}
 <form action="{{ url_for('users.login') }}" class="pull-right" method="POST">
     {{ login_form.username(class="input-small", placeholder="Username") }}
     {{ login_form.password(class="input-small", placeholder="Password") }}
@@ -30,3 +31,4 @@
 {#    <button class="btn info" type="submit">Sign In</button>#}
     <a class="btn info" id="register" href="{{ url_for('users.register') }}">Register</a>
 </form>
+{% endif %}
