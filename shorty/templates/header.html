@@ -15,10 +15,18 @@
     along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 #}
 
+{% import "macros.html" as macros %}
+
 <a class="brand" href="{{ url_for('frontend.index') }}">Shorty</a>
-<form action="" class="pull-right">
-    <input class="input-small" type="text" placeholder="Username">
-    <input class="input-small" type="password" placeholder="Password">
-    <button class="btn info" type="submit">Sign In</button>
-    <a class="btn info" id="register" href="#">Register</a>
+<form action="{{ url_for('users.login') }}" class="pull-right" method="POST">
+    {{ login_form.username(class="input-small", placeholder="Username") }}
+    {{ login_form.password(class="input-small", placeholder="Password") }}
+    {{ login_form.submit(class="btn info") }}
+{#    {{ macros.render_field(login_form.username, with_label=False, class="input-small", placeholder="Username") }}#}
+{#    {{ macros.render_field(login_form.password, with_label=False, class="input-small", placeholder="Password") }}#}
+{#    {{ macros.render_field(login_form.submit, with_label=False, class="btn info") }}#}
+{#    <input class="input-small" type="text" placeholder="Username">#}
+{#    <input class="input-small" type="password" placeholder="Password">#}
+{#    <button class="btn info" type="submit">Sign In</button>#}
+    <a class="btn info" id="register" href="{{ url_for('users.register') }}">Register</a>
 </form>

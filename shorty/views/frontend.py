@@ -18,7 +18,7 @@ from flask import *
 from flask.views import MethodView, View
 
 from shorty.core.shortener import shorten_url, expand_url, EncoderError
-from shorty.core.forms import URLForm
+from shorty.core.forms import URLForm, LoginForm
 
 frontend = Blueprint('frontend', __name__)
 
@@ -27,9 +27,11 @@ class IndexView(MethodView):
     template = 'index.html'
 
     def get(self):
-        form = URLForm()
+        url_form = URLForm()
+        login_form = LoginForm()
         return render_template(self.template,
-                               form=form)
+                               url_form=url_form,
+                               login_form=login_form)
 
     def post(self):
         form = URLForm()
