@@ -17,7 +17,7 @@
 
 {% macro render_field(field, with_label=True) %}
     <div class="clearfix{% if field.errors %} error{% endif %}">
-        {% if with_label %}{{ field.label }} {% endif %}{{ field() }}
+        {% if with_label %}{{ field.label }} {% endif %}{{ field(**kwargs) }}
         {% for error in field.errors %}
             <span class="help-inline field-error">{{ error }}</span>
         {% endfor %}
