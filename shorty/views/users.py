@@ -14,16 +14,24 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
-from shorty.views.frontend import frontend, IndexView, ShortLinkRedirectView
-from shorty.views.users import users, LoginView, RegisterView
+from flask import *
+from flask.views import MethodView, View
 
-routes = [
-    ((frontend, ''),
-        ('/', IndexView.as_view('index')),
-        ('/<short_code>', ShortLinkRedirectView.as_view('redir')),
-    ),
-    ((users, '/user'),
-        ('/login', LoginView.as_view('login')),
-        ('/register', RegisterView.as_view('register')),
-    ),
-]
+users = Blueprint('users', __name__)
+
+
+class LoginView(View):
+    methods = ['POST']
+
+    def dispatch_request(self):
+        return redirect(url_for('frontend.index'))
+
+
+class RegisterView(MethodView):
+    template = 'register.html'
+
+    def get(self):
+        return render_template(self.template)
+
+    def post(self):
+        return redirect(url_for('users.register'))
