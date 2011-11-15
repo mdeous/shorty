@@ -13,3 +13,12 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
+
+from flask.ext.wtf import widgets
+
+
+class ButtonWidget(object):
+    def __call__(self, field, **kwargs):
+        return widgets.HTMLString(u'<button %s>%s</button>' % (
+            widgets.html_params(**kwargs),
+            field.label.text))
