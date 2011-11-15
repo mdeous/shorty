@@ -21,5 +21,6 @@ from shorty.core.forms.widgets import XXLargeTextInput
 
 
 class URLForm(Form):
-    url = TextField('URL', [Required(), Length(max=255), URL()], widget=XXLargeTextInput())
+    url = TextField('URL', [Required(), Length(max=255), URL()])
+    submit = SubmitField()
 

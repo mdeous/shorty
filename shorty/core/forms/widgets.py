@@ -13,11 +13,3 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
-
-from flask.ext.wtf import TextInput
-
-
-class XXLargeTextInput(TextInput):
-    def __call__(self, field, **kwargs):
-        kwargs['class'] = u'xxlarge'
-        return super(XXLargeTextInput, self).__call__(field, **kwargs)
