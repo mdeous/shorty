@@ -15,8 +15,9 @@
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
 from flask.ext.wtf import Form, TextField, PasswordField, SubmitField
-from flask.ext.wtf import Required, Length, URL
+from flask.ext.wtf import Required, Length, URL, EMail
 
+from shorty.core.forms.validators import StrongPassword
 from shorty.core.forms.widgets import ButtonWidget
 
 
@@ -29,3 +30,9 @@ class LoginForm(Form):
     username = TextField('Username', [Required()])
     password = PasswordField('Password', [Required()])
     submit = SubmitField('Sign In', widget=ButtonWidget())
+
+
+class RegisterForm(Form):
+    username = TextField('Username', [Required(), Length(min=3, max=255)])
+    email = TextField('E-Mail', [Required(), EMail()])
+    password = PasswordField('Password', [Required(), StrongPassword()])
