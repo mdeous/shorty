@@ -16,7 +16,10 @@
 
 from flask import *
 from flask.views import MethodView, View
+from werkzeug.security import generate_password_hash, check_password_hash
 
+from shorty import db
+from shorty.models import User
 from shorty.core.forms import RegisterForm
 
 users = Blueprint('users', __name__)
@@ -39,5 +42,15 @@ class RegisterView(MethodView):
     def post(self):
         reg_form = RegisterForm()
         if not reg_form.validate_on_submit():
+            print reg_form.errors
             return render_template(self.template, reg_form=reg_form)
-        return redirect(url_for('users.register'))
+        user_obj = User(
+            name=reg_form.data['username'],
+            email=reg_form.data['email'],
+            password=generate_password_hash(reg_form.data['password']),
+            active=True
+        )
+        db.session.add(user_obj)
+        db.session.commit()
+        flash('Registration complete. You can sign in.')
+        return redirect(url_for('frontend.index'))

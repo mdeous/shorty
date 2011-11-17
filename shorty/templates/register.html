@@ -29,11 +29,14 @@
 <div class="row">
     <div class="span14">
         <form method="POST" action="{{ url_for('users.register') }}">
-            {{ macros.render_field(reg_form.username, with_label=False, placeholder=reg_form.username.label.text, class="xlarge") }}
-            {{ macros.render_field(reg_form.email, with_label=False, placeholder=reg_form.email.label.text, class="xlarge") }}
-            {{ macros.render_field(reg_form.password, with_label=False, placeholder=reg_form.password.label.text, class="xlarge") }}
-            {{ macros.render_field(reg_form.confirm, with_label=False, placeholder=reg_form.confirm.label.text, class="xlarge") }}
-            {{ macros.render_field(reg_form.submit, with_label=False, class="btn primary", value=reg_form.submit.label.text) }}
+            <fieldset>
+                {{ macros.render_field(reg_form.username, with_label=False, placeholder=reg_form.username.label.text, class="xlarge") }}
+                {{ macros.render_field(reg_form.email, with_label=False, placeholder=reg_form.email.label.text, class="xlarge") }}
+                {{ macros.render_field(reg_form.password, with_label=False, placeholder=reg_form.password.label.text, class="xlarge") }}
+                {{ macros.render_field(reg_form.confirm, with_label=False, placeholder=reg_form.confirm.label.text, class="xlarge") }}
+                {{ macros.render_field(reg_form.submit, with_label=False, class="btn primary", value=reg_form.submit.label.text) }}
+                {{ reg_form.hidden_tag() }}
+            </fieldset>
         </form>
     </div>
 </div>
