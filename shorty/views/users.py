@@ -16,6 +16,7 @@
 
 from flask import *
 from flask.views import MethodView, View
+from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from shorty import db
@@ -51,6 +52,11 @@ class RegisterView(MethodView):
             active=True
         )
         db.session.add(user_obj)
-        db.session.commit()
-        flash('Registration complete. You can sign in.')
+        try:
+            db.session.commit()
+        except IntegrityError:
+            #TODO: notify user about what fields are duplicate (or not?)
+            flash('An user already exists with given details', category='error')
+        else:
+            flash('Registration complete. You can sign in.')
         return redirect(url_for('frontend.index'))
