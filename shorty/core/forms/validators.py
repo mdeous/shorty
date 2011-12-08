@@ -30,7 +30,7 @@ class StrongPassword(object):
                  lowercase=True,
                  uppercase=True,
                  digit=True,
-                 special=True):
+                 special=False):
         self.min_length = min_length
         self.lowercase = lowercase
         self.uppercase = uppercase
