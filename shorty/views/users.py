@@ -46,7 +46,7 @@ class LoginView(View):
                 flash("Invalid username or password", category='error')
             else:
                 login_user(user)
-                flash("Log in successful")
+                flash("Log in successful", category='success')
         return redirect(url_for('frontend.index'))
 
 
@@ -74,7 +74,7 @@ class RegisterView(MethodView):
             #TODO: notify user about what fields are duplicate (or not?)
             flash('An user already exists with given details', category='error')
         else:
-            flash('Registration complete. You can sign in.')
+            flash('Registration complete. You can sign in.', category='info')
         return redirect(url_for('frontend.index'))
 
 
@@ -82,7 +82,7 @@ class LogoutView(MethodView):
     def post(self):
         if current_user.is_authenticated():
             logout_user()
-            flash("Successfuly logged out")
+            flash("Successfuly logged out", category='success')
         else:
             flash("You're not authenticated", category='error')
         return redirect(url_for('frontend.index'))
