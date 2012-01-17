@@ -16,12 +16,14 @@
 
 from flask import *
 from flask.views import MethodView, View
+from flask.ext.login import current_user, login_user, logout_user
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import NoResultFound
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from shorty import db
 from shorty.models import User
-from shorty.core.forms import RegisterForm
+from shorty.core.forms import RegisterForm, LoginForm
 
 users = Blueprint('users', __name__)
 
@@ -30,6 +32,23 @@ class LoginView(View):
     methods = ['POST']
 
     def dispatch_request(self):
+        form = LoginForm()
+        if not form.validate_on_submit():
+            #TODO: find a nice way to display errors for this form
+            flash("An error occured!", category='error')
+            return redirect(url_for('frontend.index'))
+        try:
+            user = User.query.filter_by(name=form.data['username']).one()
+        except NoResultFound:
+            #XXX: is this good? (does the user need to know which of name/pass failed?)
+            flash("User doesn't exist ('%s')" % form.data['username'], category='error')
+        else:
+            if not check_password_hash(user.password, form.data['password']):
+                flash("Invalid password", category='error')
+            else:
+                login_user(user)
+                flash("Log in successful")
+                flash("{0}: {1}".format(current_user.name, current_user.email))
         return redirect(url_for('frontend.index'))
 
 
@@ -59,4 +78,14 @@ class RegisterView(MethodView):
             flash('An user already exists with given details', category='error')
         else:
             flash('Registration complete. You can sign in.')
+        return redirect(url_for('frontend.index'))
+
+
+class LogoutView(MethodView):
+    def post(self):
+        if current_user.is_authenticated():
+            logout_user()
+            flash("Successfuly logged out")
+        else:
+            flash("You're not authenticated!")
         return redirect(url_for('frontend.index'))

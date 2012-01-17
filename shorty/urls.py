@@ -15,7 +15,7 @@
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
 from shorty.views.frontend import frontend, IndexView, ShortLinkRedirectView
-from shorty.views.users import users, LoginView, RegisterView
+from shorty.views.users import users, LoginView, RegisterView, LogoutView
 
 routes = [
     ((frontend, ''),
@@ -24,6 +24,7 @@ routes = [
     ),
     ((users, '/user'),
         ('/login', LoginView.as_view('login')),
+        ('/logout', LogoutView.as_view('logout')),
         ('/register', RegisterView.as_view('register')),
     ),
 ]
