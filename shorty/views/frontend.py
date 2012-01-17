@@ -16,6 +16,7 @@
 
 from flask import *
 from flask.views import MethodView, View
+from flask.ext.login import current_user
 
 from shorty.core.shortener import shorten_url, expand_url, EncoderError
 from shorty.core.forms import URLForm, LoginForm
@@ -37,12 +38,14 @@ class IndexView(MethodView):
         form = URLForm()
         if not form.validate_on_submit():
             return render_template(self.template,
-                                   form=form)
+                                   form=form,
+                                   current_user=current_user)
         short_code = shorten_url(form.data['url'])
         short_url = '%s/%s' % (current_app.config['BASE_URL'], short_code)
         return render_template(self.template,
                                form=form,
-                               short_url=short_url)
+                               short_url=short_url,
+                               current_user=current_user)
 
 
 class ShortLinkRedirectView(View):
