@@ -35,7 +35,7 @@ class LoginView(View):
         form = LoginForm()
         if not form.validate_on_submit():
             #TODO: find a nice way to display errors for this form
-            flash("An error occured!", category='error')
+            flash("An error occured while logging in", category='error')
             return redirect(url_for('frontend.index'))
         try:
             user = User.query.filter_by(name=form.data['username']).one()
@@ -47,7 +47,6 @@ class LoginView(View):
             else:
                 login_user(user)
                 flash("Log in successful")
-                flash("{0}: {1}".format(current_user.name, current_user.email))
         return redirect(url_for('frontend.index'))
 
 
@@ -85,5 +84,5 @@ class LogoutView(MethodView):
             logout_user()
             flash("Successfuly logged out")
         else:
-            flash("You're not authenticated!")
+            flash("You're not authenticated", category='error')
         return redirect(url_for('frontend.index'))

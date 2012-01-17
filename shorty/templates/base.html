@@ -25,6 +25,7 @@
     <script type="text/javascript">
         window.jQuery || document.write('<script type="text/javascript" src="{{ JS }}/jquery-1.6.4.min.js"><\/script>');
     </script>
+    <script type="text/javascript" src="{{ JS }}/bootstrap-alerts.js"></script>
     <script type="text/javascript" src="{{ JS }}/shorty.js"></script>
     {% block extra_js %}{% endblock %}
     <!-- END JavaScript -->
@@ -50,11 +51,12 @@
     </a>
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
-            <ul class="flashes">
             {% for category, message in messages %}
-                <li class="flash" id="{{ category }}">{{ message }}</li>
+                <div class="alert-message {{ category }} fade in" data-alert='alert'>
+                    <a class="close" href="#">×</a>
+                    <p><strong>{{ message }}</strong></p>
+                </div>
             {% endfor %}
-            </ul>
         {% endif %}
     {% endwith %}
     {% block body %}{% endblock %}
