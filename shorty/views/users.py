@@ -40,11 +40,10 @@ class LoginView(View):
         try:
             user = User.query.filter_by(name=form.data['username']).one()
         except NoResultFound:
-            #XXX: is this good? (does the user need to know which of name/pass failed?)
-            flash("User doesn't exist ('%s')" % form.data['username'], category='error')
+            flash("Invalid username or password", category='error')
         else:
             if not check_password_hash(user.password, form.data['password']):
-                flash("Invalid password", category='error')
+                flash("Invalid username or password", category='error')
             else:
                 login_user(user)
                 flash("Log in successful")
@@ -62,7 +61,6 @@ class RegisterView(MethodView):
     def post(self):
         reg_form = RegisterForm()
         if not reg_form.validate_on_submit():
-            print reg_form.errors
             return render_template(self.template, reg_form=reg_form)
         user_obj = User(
             name=reg_form.data['username'],
