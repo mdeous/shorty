@@ -15,7 +15,7 @@
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
 from flask import *
-from flask.views import MethodView, View
+from flask.views import MethodView
 from flask.ext.login import current_user, login_user, logout_user
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
@@ -28,39 +28,55 @@ from shorty.core.forms import RegisterForm, LoginForm
 users = Blueprint('users', __name__)
 
 
-class LoginView(View):
-    methods = ['POST']
+class LoginView(MethodView):
+    template = 'users/login.html'
 
-    def dispatch_request(self):
-        form = LoginForm()
-        if not form.validate_on_submit():
-            #TODO: find a nice way to display errors for this form
-            flash("An error occured while logging in", category='error')
-            return redirect(url_for('frontend.index'))
+    def get(self):
+        return render_template(self.template,
+                               login_form=LoginForm(),
+                               has_user_bar=False)
+
+    def post(self):
+        login_success = True
+        login_form = LoginForm()
+        if not login_form.validate_on_submit():
+            return render_template(self.template,
+                                   login_form=login_form,
+                                   has_user_bar=False)
         try:
-            user = User.query.filter_by(name=form.data['username']).one()
+            user = User.query.filter_by(name=login_form.data['username']).one()
         except NoResultFound:
             flash("Invalid username or password", category='error')
+            login_success = False
         else:
-            if not check_password_hash(user.password, form.data['password']):
+            if not check_password_hash(user.password, login_form.data['password']):
                 flash("Invalid username or password", category='error')
+                login_success = False
             else:
                 login_user(user)
                 flash("Log in successful", category='success')
-        return redirect(url_for('frontend.index'))
+        if login_success:
+            return redirect(url_for('frontend.index'))
+        else:
+            return render_template(self.template,
+                                   login_form=login_form,
+                                   has_user_bar=False)
 
 
 class RegisterView(MethodView):
-    template = 'register.html'
+    template = 'users/register.html'
 
     def get(self):
-        reg_form = RegisterForm()
-        return render_template(self.template, reg_form=reg_form)
+        return render_template(self.template,
+                               reg_form=RegisterForm(),
+                               has_user_bar=False)
 
     def post(self):
         reg_form = RegisterForm()
         if not reg_form.validate_on_submit():
-            return render_template(self.template, reg_form=reg_form)
+            return render_template(self.template,
+                                   reg_form=reg_form,
+                                   has_user_bar=False)
         user_obj = User(
             name=reg_form.data['username'],
             email=reg_form.data['email'],
@@ -85,4 +101,22 @@ class LogoutView(MethodView):
             flash("Successfuly logged out", category='success')
         else:
             flash("You're not authenticated", category='error')
-        return redirect(url_for('frontend.index'))
+        return ''
+
+
+
+class ProfileView(MethodView):
+    template = 'users/profile.html'
+
+    def get(self):
+        return render_template(self.template)
+
+    def post(self):
+        return redirect(url_for('users.profile'))
+
+
+class LinksView(MethodView):
+    template = 'users/links.html'
+
+    def get(self, link_id=None):
+        return render_template(self.template)
