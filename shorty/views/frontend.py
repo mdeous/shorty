@@ -29,24 +29,19 @@ class IndexView(MethodView):
 
     def get(self):
         url_form = URLForm()
-        login_form = LoginForm()
         return render_template(self.template,
-                               url_form=url_form,
-                               login_form=login_form)
+                               url_form=url_form)
 
     def post(self):
         url_form = URLForm()
-        login_form = LoginForm()
         if not url_form.validate_on_submit():
             return render_template(self.template,
                                    url_form=url_form,
-                                   login_form=login_form,
                                    current_user=current_user)
         short_code = shorten_url(url_form.data['url'])
         short_url = '%s/%s' % (current_app.config['BASE_URL'], short_code)
         return render_template(self.template,
                                url_form=url_form,
-                               login_form=login_form,
                                short_url=short_url,
                                current_user=current_user)
 
