@@ -24,9 +24,15 @@
     <div class="span14">
         <form method="POST" action="{{ url_for('frontend.index') }}">
             <fieldset>
-                {{ macros.render_field(url_form.url, with_label=False, class='xxlarge') }}
+                {{ macros.render_field(url_form.url,
+                        with_label=False,
+                        class='xxlarge',
+                        placeholder='Put your very long URL here') }}
                 <br />
-                {{ macros.render_field(url_form.submit, with_label=False, class="btn primary", value=url_form.submit.label.text) }}
+                {{ macros.render_field(url_form.submit,
+                        with_label=False,
+                        class="btn primary",
+                        value=url_form.submit.label.text) }}
                 {{ url_form.hidden_tag() }}
             </fieldset>
         </form>
