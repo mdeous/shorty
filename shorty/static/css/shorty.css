@@ -20,7 +20,13 @@
     src: url('bgrove.ttf');
 }
 body {
-    padding-top: 40px;
+    padding-top: 50px;
+}
+img.home {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: 3px;
 }
 .container {
     width: 820px;
