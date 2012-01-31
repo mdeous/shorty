@@ -14,3 +14,14 @@
     You should have received a copy of the GNU General Public License
     along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+$(document).ready(function() {
+    // logging out should happen in a POST request
+    // let's transform the link click into a POST then...
+    $('.logout_link').click(function() {
+        // XXX: url is hardcoded, would it be better to put this code in a template?
+        $.post('/user/logout', function() {
+            window.location.href = '/';
+        });
+    });
+});
