@@ -14,8 +14,16 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
+from flask.ext.login import login_required
+
 from shorty.views.frontend import frontend, IndexView, ShortLinkRedirectView
-from shorty.views.users import users, LoginView, RegisterView, LogoutView
+from shorty.views.users import (users,
+                                LoginView,
+                                RegisterView,
+                                LogoutView,
+                                ProfileView,
+                                LinksView,
+                                )
 
 routes = [
     ((frontend, ''),
@@ -26,5 +34,8 @@ routes = [
         ('/login', LoginView.as_view('login')),
         ('/logout', LogoutView.as_view('logout')),
         ('/register', RegisterView.as_view('register')),
+        ('/profile', login_required(ProfileView.as_view('profile'))),
+        ('/links', login_required(LinksView.as_view('links'))),
+        ('/links/<int:link_id>', login_required(LinksView.as_view('links'))),
     ),
 ]
