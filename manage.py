@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask.ext.script import Command, Manager, Shell, Option
+from flask.ext.script import Command, Manager, Shell, Server, Option
 
 from shorty import app
 
@@ -91,6 +91,12 @@ class RunCommand(Command):
         raise NotImplementedError
 
 
+class RunServer(Server):
+    def handle(self, app, host, port, use_debugger, use_reloader):
+        app.config['SQLALCHEMY_ECHO'] = True
+        super(RunServer, self).handle(app, host, port, use_debugger, use_reloader)
+
+
 class RunTornado(RunCommand):
     """
     Serves the application using Tornado.
@@ -105,8 +111,10 @@ class RunTornado(RunCommand):
 
 
 del manager._commands['shell']
+del manager._commands['runserver']
 manager.add_command('shell', FixedShell())
 manager.add_command('syncdb', SyncDB())
 manager.add_command('test', Test())
+manager.add_command('runserver', RunServer())
 manager.add_command('tornado', RunTornado())
 manager.run()
