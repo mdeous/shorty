@@ -28,6 +28,7 @@ class SyncDB(Command):
     """
     def run(self):
         from shorty import db
+        app.config['SQLALCHEMY_ECHO'] = True
         db.drop_all()
         db.create_all()
         db.session.commit()
