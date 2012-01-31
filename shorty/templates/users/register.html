@@ -1,0 +1,67 @@
+{#
+    This file is part of Shorty.
+
+    Shorty is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Shorty is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{% extends 'base.html' %}
+{% import 'macros.html' as macros %}
+
+{% block body %}
+<div class="row">
+    <div class="span14">
+        <br />
+        <h4><em>
+            Please enter your details or
+            <a href="{{ url_for('users.login') }}"><em>sign in</em></a>.
+            </em>
+        </h4>
+        <br />
+    </div>
+</div>
+<div class="row">
+    <div class="span14">
+        <form method="POST" action="{{ url_for('users.register') }}">
+            <fieldset>
+                <div class="input">
+                {{ macros.render_field(reg_form.username,
+                        with_label=False,
+                        placeholder=reg_form.username.label.text,
+                        class="xlarge") }}
+                </div>
+                {{ macros.render_field(reg_form.email,
+                        with_label=False,
+                        placeholder=reg_form.email.label.text,
+                        class="xlarge") }}
+                <div class="input">
+                    {{ macros.render_field(reg_form.password,
+                            with_label=False,
+                            placeholder=reg_form.password.label.text,
+                            class="xlarge") }}
+                    <legend>Must contain at least 8 characters, including 1 digit and 1 uppercase letter</legend>
+                </div>
+                {{ macros.render_field(reg_form.confirm,
+                        with_label=False,
+                        placeholder=reg_form.confirm.label.text,
+                        class="xlarge") }}
+                {{ macros.render_field(reg_form.submit,
+                        with_label=False,
+                        class="btn primary",
+                        value=reg_form.submit.label.text) }}
+                {{ reg_form.hidden_tag() }}
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -22,21 +22,30 @@
 <div class="row">
     <div class="span14">
         <br />
-        <h4><em>Please enter your details to register.</em></h4>
+        <h4><em>
+            Enter your credentials or
+            <a href="{{ url_for('users.register') }}"><em>register</em></a>.
+            </em>
+        </h4>
         <br />
     </div>
 </div>
 <div class="row">
     <div class="span14">
-        <form method="POST" action="{{ url_for('users.register') }}">
-            <fieldset>
-                {{ macros.render_field(reg_form.username, with_label=False, placeholder=reg_form.username.label.text, class="xlarge") }}
-                {{ macros.render_field(reg_form.email, with_label=False, placeholder=reg_form.email.label.text, class="xlarge") }}
-                {{ macros.render_field(reg_form.password, with_label=False, placeholder=reg_form.password.label.text, class="xlarge") }}
-                {{ macros.render_field(reg_form.confirm, with_label=False, placeholder=reg_form.confirm.label.text, class="xlarge") }}
-                {{ macros.render_field(reg_form.submit, with_label=False, class="btn primary", value=reg_form.submit.label.text) }}
-                {{ reg_form.hidden_tag() }}
-            </fieldset>
+        <form method="POST" action="{{ url_for('users.login') }}">
+            {{ macros.render_field(login_form.username,
+                    with_label=False,
+                    class="xlarge",
+                    placeholder=login_form.username.label.text) }}
+            {{ macros.render_field(login_form.password,
+                    with_label=False,
+                    class="xlarge",
+                    placeholder=login_form.password.label.text) }}
+            {{ macros.render_field(login_form.submit,
+                    with_label=False,
+                    class="btn primary",
+                    value=login_form.submit.label.text) }}
+            {{ login_form.hidden_tag() }}
         </form>
     </div>
 </div>
