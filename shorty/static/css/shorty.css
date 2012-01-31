@@ -43,3 +43,6 @@ a.shorturl {
 strong.username {
     color: white;
 }
+.block-message {
+    text-align: left;
+}
