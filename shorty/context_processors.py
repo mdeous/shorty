@@ -14,6 +14,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
+from shorty.core.forms import LoginForm
+
 def static_files():
     STATIC_ROOT = '/static'
     return dict(
@@ -22,3 +24,6 @@ def static_files():
         JS = '%s/js' % STATIC_ROOT,
         MEDIA = '%s/media' % STATIC_ROOT
     )
+
+def login_form():
+    return {'login_form': LoginForm()}

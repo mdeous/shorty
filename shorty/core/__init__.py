@@ -14,6 +14,12 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
+from flask import flash, redirect, url_for
+
+
+def _unauthorized_callback():
+    flash("You must be logged in to view this page.", category='error')
+    return redirect(url_for('frontend.index'))
 
 def setup_routing(app, routes):
     """
@@ -44,13 +50,14 @@ def setup_routing(app, routes):
 
 def create_app(settings_obj, **other_settings):
     from flask import Flask
-    from shorty.context_processors import static_files
+    from shorty.context_processors import static_files, login_form
 
     app = Flask('shorty')
     app.config.from_object(settings_obj)
     for key, val in other_settings.iteritems():
         app.config[key] = val
     app.context_processor(static_files)
+    app.context_processor(login_form)
     return app
 
 def create_login_manager(app):
@@ -64,6 +71,7 @@ def create_login_manager(app):
     login_manager.needs_refresh_message = "You need to re-authenticate"
     login_manager.login_view = 'frontend.login'
     login_manager.refresh_view = 'frontend.login'
+    login_manager.unauthorized_callback = _unauthorized_callback
     login_manager.user_loader(lambda userid: User.query.get(int(userid)))
     login_manager.token_loader(lambda token: User.from_token(token))
     return login_manager
