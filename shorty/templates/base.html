@@ -26,6 +26,7 @@
         window.jQuery || document.write('<script type="text/javascript" src="{{ JS }}/jquery-1.6.4.min.js"><\/script>');
     </script>
     <script type="text/javascript" src="{{ JS }}/bootstrap-alerts.js"></script>
+    <script type="text/javascript" src="{{ JS }}/bootstrap-dropdown.js"></script>
     <script type="text/javascript" src="{{ JS }}/shorty.js"></script>
     {% block extra_js %}{% endblock %}
     <!-- END JavaScript -->
@@ -36,7 +37,7 @@
 </head>
 
 <body>
-<div class="topbar">
+<div class="topbar" data-dropdown="dropdown">
     <div class="fill">
         <div class="container">
             {% include 'header.html' %}
@@ -52,9 +53,9 @@
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
             {% for category, message in messages %}
-                <div class="alert-message {{ category }} fade in" data-alert='alert'>
-                    <a class="close" href="#">×</a>
-                    <p><strong>{{ message }}</strong></p>
+                <div class="alert-message fade in {{ category }}" data-alert='alert'>
+                    <a class="close" href="#">&times;</a>
+                    <p>{{ message }}</p>
                 </div>
             {% endfor %}
         {% endif %}

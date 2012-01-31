@@ -1,4 +1,4 @@
-{#
+ {#
     This file is part of Shorty.
 
     Shorty is free software: you can redistribute it and/or modify
@@ -15,18 +15,30 @@
     along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 #}
 
-<a class="brand" href="{{ url_for('frontend.index') }}">Shorty</a>
-{% if current_user.is_authenticated() %}
-    <form action="{{ url_for('users.logout') }}" class="pull-right" method="POST">
-        <strong class="username">{{ current_user.name }}</strong>
-        <button class="btn info" type="submit">Log Out</button>
-    </form>
-{% else %}
-    <form action="{{ url_for('users.login') }}" class="pull-right" method="POST">
-        {{ login_form.username(class="input-small", placeholder="Username") }}
-        {{ login_form.password(class="input-small", placeholder="Password") }}
-        {{ login_form.submit(class="btn info") }}
-        {{ login_form.hidden_tag() }}
-        <a class="btn info" id="register" href="{{ url_for('users.register') }}">Register</a>
-    </form>
+<a class="brand" href="{{ url_for('frontend.index') }}">
+    <img src="{{ MEDIA }}/home.png" class="home">
+</a>
+{% if has_user_bar is not defined %}
+    {% set has_user_bar = True %}
+{% endif %}
+{% if has_user_bar %}
+    {% if current_user.is_authenticated() %}
+        <ul class="secondary-nav">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">{{ current_user.name }}</a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ url_for('users.links') }}">My links</a></li>
+                    <li><a href="{{ url_for('users.profile') }}">Profile</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="logout_link">Sign Out</a></li>
+                </ul>
+            </li>
+        </ul>
+    {% else %}
+        <ul class="secondary-nav">
+        <li><a href="{{ url_for('users.login') }}">Sign In</a></li>
+        <li><p>or</p></li>
+        <li><a href="{{ url_for('users.register') }}">Register</a></li>
+        </ul>
+    {% endif %}
 {% endif %}
