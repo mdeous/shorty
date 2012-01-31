@@ -109,7 +109,7 @@ class ProfileView(MethodView):
     template = 'users/profile.html'
 
     def get(self):
-        return render_template(self.template)
+        return render_template(self.template, user=current_user)
 
     def post(self):
         return redirect(url_for('users.profile'))

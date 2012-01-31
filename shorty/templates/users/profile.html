@@ -16,4 +16,17 @@
 #}
 
 {% extends 'base.html' %}
-{% block body %}<h1>It Works!</h1>{% endblock %}
+{% block body %}
+<table class="bordered-table">
+    <tbody>
+        <tr>
+            <td>Username</td>
+            <td>{{ user.name }}</td>
+        </tr>
+        <tr>
+            <td>E-Mail</td>
+            <td>{{ user.email }}</td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}
