@@ -41,8 +41,9 @@
 
 <div class="row">
     <div class="span14 offset1">
-    {% if short_url %}
-        <h1><a href="{{ short_url }}" class="shorturl">{{ short_url }}</a>
+    {% if url_id %}
+        {% set short_link = url_id|make_short_link %}
+        <h1><a href="{{ short_link }}" class="shorturl">{{ short_link }}</a>
         <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
                 width="110"
                 height="14"
