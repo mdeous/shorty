@@ -146,34 +146,3 @@ class UrlEncoder(object):
                 raise EncoderError("Encoded value characters don't match the "
                                    "defined alphabet.")
         return result
-
-
-def shorten_url(url):
-    """
-    Adds a long URL to the database and returns its encoded id.
-
-    :param url: The URL to shorten.
-    :type url: str.
-    :returns: str -- the short URL code (only the code, not the full URL)
-    """
-    try:
-        url_obj = ShortURL.query.filter_by(long_url=url).one()
-    except NoResultFound:
-        url_obj = ShortURL(long_url=url)
-        db.session.add(url_obj)
-        db.session.commit()
-    encoded = UrlEncoder().encode_id(url_obj.id)
-    return encoded
-
-def expand_url(url):
-    """
-    Expands a short URL.
-
-    :param url: The short URL to expand.
-    :type url: str.
-    :returns: str -- the corresponding long URL.
-    """
-    url_code = url.split('/')[-1] if ('/' in url) else url
-    url_id = UrlEncoder().decode_id(url_code)
-    url_obj = ShortURL.query.filter_by(id=url_id).one()
-    return url_obj.long_url
