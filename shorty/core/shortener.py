@@ -14,11 +14,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
-from sqlalchemy.orm.exc import NoResultFound
-
-from shorty import db
-from shorty.models import ShortURL
-
 
 class EncoderError(Exception):
     """
