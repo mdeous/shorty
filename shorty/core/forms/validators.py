@@ -26,7 +26,7 @@ class StrongPassword(object):
     _re_special = re.compile(r'[^a-zA-Z0-9]')
 
     def __init__(self,
-                 min_length=8,
+                 min_length=12,
                  lowercase=True,
                  uppercase=True,
                  digit=True,
