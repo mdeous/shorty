@@ -21,17 +21,17 @@
 {% block body %}
 
 <div class="row">
-    <div class="span14">
+    <div class="span12">
         <form method="POST" action="{{ url_for('frontend.index') }}">
             <fieldset>
                 {{ macros.render_field(url_form.url,
                         with_label=False,
-                        class='xxlarge',
+                        class='input-xxlarge',
                         placeholder='Put your very long URL here') }}
                 <br />
                 {{ macros.render_field(url_form.submit,
                         with_label=False,
-                        class="btn primary",
+                        class="btn-primary btn-large",
                         value=url_form.submit.label.text) }}
                 {{ url_form.hidden_tag() }}
             </fieldset>
@@ -40,7 +40,7 @@
 </div>
 
 <div class="row">
-    <div class="span14 offset1">
+    <div class="span12 offset1">
     {% if url_id %}
         {% set short_link = url_id|make_short_link %}
         <h1><a href="{{ short_link }}" class="shorturl">{{ short_link }}</a>
@@ -68,6 +68,7 @@
         </object>
         </h1>
     {% endif %}
+    <br>
     </div>
 </div>
 

@@ -18,12 +18,12 @@ from shorty.core.forms import LoginForm
 
 def static_files():
     STATIC_ROOT = '/static'
-    return dict(
-        STATIC_ROOT = STATIC_ROOT,
-        CSS = '%s/css' % STATIC_ROOT,
-        JS = '%s/js' % STATIC_ROOT,
-        MEDIA = '%s/media' % STATIC_ROOT
-    )
+    return {
+        'CSS': '%s/css' % STATIC_ROOT,
+        'JS': '%s/js' % STATIC_ROOT,
+        'MEDIA': '%s/media' % STATIC_ROOT,
+        'BOOTSTRAP': '%s/bootstrap' % STATIC_ROOT
+    }
 
 def login_form():
     return {'login_form': LoginForm()}

@@ -18,6 +18,7 @@ BASE_URL = 'http://localhost:5000'
 
 DEBUG = True
 TESTING = False
+ENABLE_DEBUGTOOLBAR = False
 
 SECRET_KEY = 'DuMmY sEcReT kEy'
 CSRF_ENABLED = True

@@ -20,30 +20,29 @@
 
 {% block body %}
 <div class="row">
-    <div class="span14">
+    <div class="span12">
         <br />
         <h4><em>
-            Enter your credentials or
-            <a href="{{ url_for('users.register') }}"><em>register</em></a>.
+            Please enter your credentials.
             </em>
         </h4>
         <br />
     </div>
 </div>
 <div class="row">
-    <div class="span14">
+    <div class="span12">
         <form method="POST" action="{{ url_for('users.login') }}">
             {{ macros.render_field(login_form.username,
                     with_label=False,
-                    class="xlarge",
+                    class="input-xlarge",
                     placeholder=login_form.username.label.text) }}
             {{ macros.render_field(login_form.password,
                     with_label=False,
-                    class="xlarge",
+                    class="input-xlarge",
                     placeholder=login_form.password.label.text) }}
             {{ macros.render_field(login_form.submit,
                     with_label=False,
-                    class="btn primary",
+                    class="btn-primary btn-large",
                     value=login_form.submit.label.text) }}
             {{ login_form.hidden_tag() }}
         </form>

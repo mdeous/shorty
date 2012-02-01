@@ -22,14 +22,9 @@
 body {
     padding-top: 50px;
 }
-img.home {
-    width: 20px;
-    height: 20px;
+i.icon-home {
     position: relative;
-    top: 3px;
-}
-.container {
-    width: 820px;
+    top: 5px;
 }
 .container, footer p {
     text-align: center;
@@ -40,9 +35,14 @@ span.field-error {
 a.shorturl {
     font-family: bgrove;
 }
-strong.username {
-    color: white;
+.alert-block {
+    text-align: left;
 }
-.block-message {
+input.input-xxlarge {
+    position: relative;
+    top: 20px;
+    height: 30px;
+}
+ul.dropdown-menu {
     text-align: left;
 }

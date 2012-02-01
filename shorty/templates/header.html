@@ -1,4 +1,4 @@
- {#
+{#
     This file is part of Shorty.
 
     Shorty is free software: you can redistribute it and/or modify
@@ -15,30 +15,36 @@
     along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 #}
 
-<a class="brand" href="{{ url_for('frontend.index') }}">
-    <img src="{{ MEDIA }}/home.png" class="home">
-</a>
-{% if has_user_bar is not defined %}
-    {% set has_user_bar = True %}
-{% endif %}
-{% if has_user_bar %}
-    {% if current_user.is_authenticated() %}
-        <ul class="secondary-nav">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle">{{ current_user.name }}</a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ url_for('users.links') }}">My links</a></li>
-                    <li><a href="{{ url_for('users.profile') }}">Profile</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#" class="logout_link">Sign Out</a></li>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="{{ url_for('frontend.index') }}">
+                <i class="icon-home icon-white"></i>
+            </a>
+            {% if current_user.is_authenticated() %}
+                <ul class="nav pull-right">
+                    <li class="divider-vertical"></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ current_user.name }}<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('users.links') }}"><i class="icon-th-list"></i> My links</a></li>
+                            <li><a href="{{ url_for('users.profile') }}"><i class="icon-user"></i> Profile</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" class="logout_link"><i class="icon-off"></i> Sign Out</a></li>
+                        </ul>
+                    </li>
+                    <li class="divider-vertical"></li>
                 </ul>
-            </li>
-        </ul>
-    {% else %}
-        <ul class="secondary-nav">
-        <li><a href="{{ url_for('users.login') }}">Sign In</a></li>
-        <li><p>or</p></li>
-        <li><a href="{{ url_for('users.register') }}">Register</a></li>
-        </ul>
-    {% endif %}
-{% endif %}
+            {% else %}
+                <ul class="nav pull-right">
+                    <li class="divider-vertical"></li>
+                    <li><a href="{{ url_for('users.login') }}">Sign In</a></li>
+                    <li class="divider-vertical"></li>
+                    <li><a href="{{ url_for('users.register') }}">Register</a></li>
+                    <li class="divider-vertical"></li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>

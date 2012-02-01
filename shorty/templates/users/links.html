@@ -17,7 +17,7 @@
 
 {% extends 'base.html' %}
 {% block body %}
-<table class="bordered-table">
+<table class="table table-bordered">
     <thead>
         <tr>
             <th>Creation date</th>
@@ -28,7 +28,7 @@
     <tbody>
     {% for link in links %}
         <tr>
-            <td>{{ link.created.strftime('%d-%m-%Y at %H:%M:%S') }}</td>
+            <td>{{ link.created.strftime('%B %m %Y at %H:%M:%S') }}</td>
             <td>
                 {{ link.id|make_short_link }}
                 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
@@ -54,7 +54,7 @@
                     </embed>
                 </object>
             </td>
-            <td><a href="{{ link.long_url }}">{{ link.long_url }}</a></td>
+            <td><a href="{{ link.long_url }}" target="_blank">{{ link.long_url }}</a></td>
         </tr>
     {% endfor %}
     </tbody>

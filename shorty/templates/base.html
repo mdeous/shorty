@@ -20,42 +20,30 @@
 <html>
 <head>
     <title>Shorty - {% block title %}Simply URL shortening...{% endblock %}</title>
-    <!-- JavaScript -->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-    <script type="text/javascript">
-        window.jQuery || document.write('<script type="text/javascript" src="{{ JS }}/jquery-1.6.4.min.js"><\/script>');
-    </script>
-    <script type="text/javascript" src="{{ JS }}/bootstrap-alerts.js"></script>
-    <script type="text/javascript" src="{{ JS }}/bootstrap-dropdown.js"></script>
-    <script type="text/javascript" src="{{ JS }}/shorty.js"></script>
-    {% block extra_js %}{% endblock %}
-    <!-- END JavaScript -->
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="{{ CSS }}/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ BOOTSTRAP }}/css/bootstrap.min.css" />
+{#    <link rel="stylesheet" type="text/css" href="{{ BOOTSTRAP }}/css/bootstrap.min.responsive" />#}
     <link rel="stylesheet" type="text/css" href="{{ CSS }}/shorty.css" />
+    {% block extra_css %}{% endblock %}
     <!-- END CSS -->
 </head>
 
 <body>
-<div class="topbar" data-dropdown="dropdown">
-    <div class="fill">
-        <div class="container">
-            {% include 'header.html' %}
-        </div>
-    </div>
-</div>
+{% include 'header.html' %}
 <div class="container">
-    <a href="https://github.com/mattoufoutu/shorty" class="github-ribbon">
+    <!-- ForkMe -->
+    <a href="https://github.com/mattoufoutu/shorty" class="github-ribbon" target="_blank">
         <img style="position: absolute; top: 40px; right: 0; border: 0;"
              src="https://a248.e.akamai.net/assets.github.com/img/abad93f42020b733148435e2cd92ce15c542d320/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67"
              alt="Fork me on GitHub">
     </a>
+    <!-- END ForkMe -->
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
             {% for category, message in messages %}
-                <div class="alert-message fade in {{ category }}" data-alert='alert'>
-                    <a class="close" href="#">&times;</a>
-                    <p>{{ message }}</p>
+                <div class="alert alert-{{ category }} fade in" data-dismiss='alert'>
+                    <a class="close" data-dismiss="alert" href="#">&times;</a>
+                    <strong>{{ message }}</strong>
                 </div>
             {% endfor %}
         {% endif %}
@@ -66,4 +54,13 @@
     </footer>
 </div>
 </body>
+<!-- Javascript -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+    window.jQuery || document.write('<script type="text/javascript" src="{{ JS }}/jquery-1.7.1.min.js"><\/script>');
+</script>
+<script type="text/javascript" src="{{ BOOTSTRAP }}/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{{ JS }}/shorty.js"></script>
+{% block extra_js %}{% endblock %}
+<!-- END Javascript -->
 </html>

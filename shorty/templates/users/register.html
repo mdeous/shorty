@@ -20,21 +20,20 @@
 
 {% block body %}
 <div class="row">
-    <div class="span14">
+    <div class="span12">
         <br />
         <h4><em>
-            Please enter your details or
-            <a href="{{ url_for('users.login') }}"><em>sign in</em></a>.
+            Please enter your informations.
             </em>
         </h4>
         <br />
     </div>
 </div>
 <div class="row">
-    <div class="span14">
-        <div class="alert-message block-message warning fade in" data-alert="alert">
-            <a class="close" href="#">&times;</a>
-            <p><strong>Password strength!</strong> Your password must satisfy the following rules:</p>
+    <div class="span12">
+        <div class="alert alert-block warning fade in">
+            <a class="close" data-dismiss="alert" href="#">&times;</a>
+            <p><strong>Password strength requirements:</strong></p>
             <ul>
                 <li>At least 8 characters long</li>
                 <li>Contains at least 1 uppercase character</li>
@@ -44,28 +43,28 @@
     </div>
 </div>
 <div class="row">
-    <div class="span14">
+    <div class="span12">
         <form method="POST" action="{{ url_for('users.register') }}">
             <fieldset>
                 {{ macros.render_field(reg_form.username,
                         with_label=False,
                         placeholder=reg_form.username.label.text,
-                        class="xlarge") }}
+                        class="input-xlarge") }}
                 {{ macros.render_field(reg_form.email,
                         with_label=False,
                         placeholder=reg_form.email.label.text,
-                        class="xlarge") }}
+                        class="input-xlarge") }}
                 {{ macros.render_field(reg_form.password,
                         with_label=False,
                         placeholder=reg_form.password.label.text,
-                        class="xlarge") }}
+                        class="input-xlarge") }}
                 {{ macros.render_field(reg_form.confirm,
                         with_label=False,
                         placeholder=reg_form.confirm.label.text,
-                        class="xlarge") }}
+                        class="input-xlarge") }}
                 {{ macros.render_field(reg_form.submit,
                         with_label=False,
-                        class="btn primary",
+                        class="btn-primary btn-large",
                         value=reg_form.submit.label.text) }}
                 {{ reg_form.hidden_tag() }}
             </fieldset>
