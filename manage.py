@@ -28,9 +28,17 @@ class SyncDB(Command):
     """
     def run(self):
         from shorty import db
+        from shorty.models import User
         app.config['SQLALCHEMY_ECHO'] = True
         db.drop_all()
         db.create_all()
+        anonymous_user = User(
+            name='AnonymousUser',
+            email='anonymous.user@example.com',
+            password=54*'0',
+            active=False
+        )
+        db.session.add(anonymous_user)
         db.session.commit()
 
 

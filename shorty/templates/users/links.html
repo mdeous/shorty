@@ -16,4 +16,23 @@
 #}
 
 {% extends 'base.html' %}
-{% block body %}<h1>It Works!</h1>{% endblock %}
+{% block body %}
+<table class="bordered-table">
+    <thead>
+        <tr>
+            <th>Creation date</th>
+            <th>Short link</th>
+            <th>Long link</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for link in links %}
+        <tr>
+            <td>{{ link.created.strftime('%d-%m-%Y at %H:%M:%S') }}</td> {# TODO: create a dateformat filter #}
+            <td>{{ link.id|make_short_link }}</td>
+            <td><a href="{{ link.long_url }}">{{ link.long_url }}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

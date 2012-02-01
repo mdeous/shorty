@@ -16,11 +16,11 @@
 
 from flask import *
 from flask.views import MethodView, View
-from flask.ext.login import current_user
+from flask.ext.login import current_user, AnonymousUser
 from sqlalchemy.orm.exc import NoResultFound
 
 from shorty import db
-from shorty.models import ShortURL
+from shorty.models import ShortURL, User
 from shorty.core.shortener import UrlEncoder, EncoderError
 from shorty.core.forms import URLForm
 
@@ -36,6 +36,7 @@ class IndexView(MethodView):
                                url_form=url_form)
 
     def post(self):
+        pending_commit = False
         url_form = URLForm()
         if not url_form.validate_on_submit():
             return render_template(self.template,
@@ -47,12 +48,20 @@ class IndexView(MethodView):
         except NoResultFound:
             url_obj = ShortURL(long_url=url)
             db.session.add(url_obj)
+            pending_commit = True
+        creator = current_user
+        if not creator.is_authenticated():
+            # anonymous user always has id==1 as it's created when db is set up
+            creator = User.query.get(1)
+        if creator not in url_obj.users:
+            url_obj.users.append(creator)
+            db.session.add(url_obj)
+            pending_commit = True
+        if pending_commit:
             db.session.commit()
-        short_code = UrlEncoder().encode_id(url_obj.id)
-        short_url = '%s/%s' % (current_app.config['BASE_URL'], short_code)
         return render_template(self.template,
                                url_form=url_form,
-                               short_url=short_url,
+                               url_id=url_obj.id,
                                current_user=current_user)
 
 
@@ -63,7 +72,7 @@ class ShortLinkRedirectView(View):
         try:
             url_code = short_code.split('/')[-1] if ('/' in short_code) else short_code
             url_id = UrlEncoder().decode_id(url_code)
-            url_obj = ShortURL.query.filter_by(id=url_id).one()
+            url_obj = ShortURL.query.get(url_id)
             return redirect(url_obj.long_url)
         except EncoderError:
             flash('Unknown short URL', category='error')

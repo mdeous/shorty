@@ -16,11 +16,16 @@
 
 from datetime import datetime
 
-from flask.ext.login import UserMixin, make_secure_token
+from flask.ext.login import AnonymousUser, UserMixin, make_secure_token
 from sqlalchemy.ext.declarative import declared_attr
 #from werkzeug.utils import cached_property
 
 from shorty import db
+
+links_users_rel = db.Table('links_users',
+    db.Column('link_id', db.Integer, db.ForeignKey('shorturl.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
+)
 
 
 class AutoInitModelMixin(object):
@@ -53,6 +58,10 @@ class AutoInitModelMixin(object):
 class ShortURL(db.Model, AutoInitModelMixin):
     long_url = db.Column(db.String(255), unique=True)
     created = db.Column(db.DateTime, default=datetime.now)
+    users = db.relationship('User',
+        secondary=links_users_rel,
+        backref=db.backref('shorturls', lazy='dynamic')
+    )
 #    clicks = db.relationship("Click")
 
     def __repr__(self):
@@ -63,7 +72,7 @@ class User(db.Model, AutoInitModelMixin, UserMixin):
     name = db.Column(db.String(255), unique=True)
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(54))
-    active = db.Column(db.Boolean, default=False)
+    active = db.Column(db.Boolean, default=True)
     authenticated = False
 
     @classmethod

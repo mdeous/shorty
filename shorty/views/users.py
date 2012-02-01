@@ -119,4 +119,5 @@ class LinksView(MethodView):
     template = 'users/links.html'
 
     def get(self, link_id=None):
-        return render_template(self.template)
+        links = current_user.shorturls.all()
+        return render_template(self.template, links=links)
