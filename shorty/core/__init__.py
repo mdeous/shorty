@@ -60,6 +60,9 @@ def create_app(settings_obj, **other_settings):
     app.context_processor(static_files)
     app.context_processor(login_form)
     app.jinja_env.filters['make_short_link'] = make_short_link
+    if app.debug and app.config['ENABLE_DEBUGTOOLBAR']:
+        from flask.ext.debugtoolbar import DebugToolbarExtension
+        dt = DebugToolbarExtension(app)
     return app
 
 def create_login_manager(app):
