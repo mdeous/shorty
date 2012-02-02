@@ -12,6 +12,7 @@ Shorty's source code is licensed under the [GNU General Public License]
 - Flask==0.8
 - Flask-WTF
 - Flask-SQLAlchemy
+- Flask-Login
 - Flask-Script (only needed to run the application from the `manage.py` script)
 
 ## Running it
