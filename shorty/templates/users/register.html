@@ -48,6 +48,7 @@
                         rel="popover",
                         title="Password requirements:",
                         **{"data-content": password_requirements}) }}
+                        {# ^HACK: we can't use '-' in the key otherwise #}
                 {{ macros.render_field(reg_form.confirm,
                         with_label=False,
                         placeholder=reg_form.confirm.label.text,
