@@ -30,7 +30,8 @@
         <tr>
             <td>{{ link.created.strftime('%B %m %Y at %H:%M:%S') }}</td>
             <td>
-                {{ link.id|make_short_link }}
+                {% set short_link = link.id|make_short_link %}
+                {{ short_link }}
                 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
                         width="110"
                         height="14"
@@ -40,7 +41,7 @@
                     <param name="quality" value="high" />
                     <param name="scale" value="noscale" />
                     <param name="bgcolor" value="#ffffff" />
-                    <param NAME="FlashVars" value="text={{ short_url }}" />
+                    <param NAME="FlashVars" value="text={{ short_link }}" />
                     <embed src="{{ MEDIA }}/clippy.swf"
                            width="110"
                            height="14"
@@ -49,7 +50,7 @@
                            allowScriptAccess="always"
                            type="application/x-shockwave-flash"
                            pluginspage="http://www.macromedia.com/go/getflashplayer"
-                           FlashVars="text={{ short_url }}"
+                           FlashVars="text={{ short_link }}"
                            bgcolor="#ffffff">
                     </embed>
                 </object>
