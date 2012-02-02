@@ -31,19 +31,6 @@
 </div>
 <div class="row">
     <div class="span12">
-        <div class="alert alert-block alert-info fade in">
-            <a class="close" data-dismiss="alert" href="#">&times;</a>
-            <p><strong>Password strength requirements:</strong></p>
-            <ul>
-                <li>At least 12 characters long</li>
-                <li>Contains at least 1 uppercase character</li>
-                <li>Contains at least 1 digit</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="span12">
         <form method="POST" action="{{ url_for('users.register') }}">
             <fieldset>
                 {{ macros.render_field(reg_form.username,
@@ -57,7 +44,10 @@
                 {{ macros.render_field(reg_form.password,
                         with_label=False,
                         placeholder=reg_form.password.label.text,
-                        class="input-xlarge") }}
+                        class="input-xlarge with-popover",
+                        rel="popover",
+                        title="Password requirements:",
+                        **{"data-content": password_requirements}) }}
                 {{ macros.render_field(reg_form.confirm,
                         with_label=False,
                         placeholder=reg_form.confirm.label.text,

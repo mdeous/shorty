@@ -15,6 +15,13 @@
     along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+function displayPopover(event) {
+    $(this).popover('show');
+}
+function hidePopover(event) {
+    $(this).popover('hide');
+}
+
 $(document).ready(function() {
     // logging out should happen in a POST request
     // let's transform the link click into a POST then...
@@ -24,4 +31,6 @@ $(document).ready(function() {
             window.location.href = '/';
         });
     });
+
+    $('input.with-popover').hover(displayPopover, hidePopover);
 });

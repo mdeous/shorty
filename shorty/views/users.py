@@ -27,6 +27,15 @@ from shorty.core.forms import RegisterForm, LoginForm
 
 users = Blueprint('users', __name__)
 
+PASSWORD_REQUIREMENTS_STR = """
+<ul>
+<li>At least 12 characters long</li>
+<li>Contains at least 1 uppercase letter</li>
+<li>Contains at least 1 lowercase letter</li>
+<li>Contains at least 1 digit</li>
+</ul>
+"""
+
 
 class LoginView(MethodView):
     template = 'users/login.html'
@@ -69,6 +78,7 @@ class RegisterView(MethodView):
     def get(self):
         return render_template(self.template,
                                reg_form=RegisterForm(),
+                               password_requirements=PASSWORD_REQUIREMENTS_STR,
                                has_user_bar=False)
 
     def post(self):
