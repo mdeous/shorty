@@ -74,6 +74,6 @@ class ShortLinkRedirectView(View):
             url_id = UrlEncoder().decode_id(url_code)
             url_obj = ShortURL.query.get(url_id)
             return redirect(url_obj.long_url)
-        except EncoderError:
-            flash('Unknown short URL', category='error')
+        except (EncoderError, AttributeError):
+            flash('Invalid short URL', category='error')
             return redirect(url_for('frontend.index'))
