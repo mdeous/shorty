@@ -24,6 +24,7 @@ from shorty.views.users import (users,
                                 ProfileView,
                                 LinksView,
                                 )
+from shorty.views.api import api, ResolveView
 
 routes = [
     ((frontend, ''),
@@ -38,4 +39,6 @@ routes = [
         ('/links', login_required(LinksView.as_view('links'))),
         ('/links/<int:link_id>', login_required(LinksView.as_view('links'))),
     ),
+    ((api, '/api'),
+        ('/resolve/<short_code>', ResolveView.as_view('resolve'))),
 ]
