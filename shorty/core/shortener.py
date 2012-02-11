@@ -134,7 +134,7 @@ class UrlEncoder(object):
         return result
 
 
-def shorten_url(url):
+def shorten_url(url, slug=''):
     """
     Adds a long URL to the database and returns its encoded id.
 
@@ -146,10 +146,15 @@ def shorten_url(url):
         url_obj = ShortURL.query.filter_by(long_url=url).one()
     except NoResultFound:
         url_obj = ShortURL(long_url=url)
+        if slug:
+            url_obj.slug = slug
         db.session.add(url_obj)
         db.session.commit()
-    encoded = UrlEncoder().encode_id(url_obj.id)
-    return encoded
+    if url_obj.slug:
+        return url_obj.slug
+    else:
+        encoded = UrlEncoder().encode_id(url_obj.id)
+        return encoded
 
 def expand_url(url):
     """
@@ -162,4 +167,17 @@ def expand_url(url):
     url_code = url.split('/')[-1] if ('/' in url) else url
     url_id = UrlEncoder().decode_id(url_code)
     url_obj = ShortURL.query.filter_by(id=url_id).one()
+    return url_obj.long_url
+
+
+def expand_slug(slug):
+    """
+    Expands a slug.
+
+    :param slug: The slug to expand.
+    :type url: str.
+    :returns: str -- the corresponding long URL.
+    """
+    url_code = slug.split('/')[-1] if ('/' in slug) else slug
+    url_obj = ShortURL.query.filter_by(slug=slug.lower()).one()
     return url_obj.long_url

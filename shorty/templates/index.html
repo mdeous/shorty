@@ -8,6 +8,8 @@
             <fieldset>
                 {{ macros.render_field(form.url, with_label=False) }}
                 <br />
+                {{ macros.render_field(form.slug, with_label=False) }}
+                <br />
                 <input class="btn primary" type="submit" value="Make It Short !">
                 {{ form.hidden_tag() }}
             </fieldset>

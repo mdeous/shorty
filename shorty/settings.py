@@ -2,6 +2,8 @@
 
 BASE_URL = 'http://localhost:5000'
 
+PREFIX = '_'
+
 DEBUG = True
 TESTING = False
 

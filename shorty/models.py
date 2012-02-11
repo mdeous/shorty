@@ -37,6 +37,7 @@ class AutoInitModelMixin(object):
 
 class ShortURL(db.Model, AutoInitModelMixin):
     long_url = db.Column(db.String(255), unique=True)
+    slug = db.Column(db.String(30), unique=True)
     created = db.Column(db.DateTime, default=datetime.now)
     clicks = db.relationship("Click")
 
