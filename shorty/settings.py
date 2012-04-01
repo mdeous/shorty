@@ -26,6 +26,12 @@ CSRF_SESSION_KEY = '_csrf_token'
 
 SQLALCHEMY_DATABASE_URI = 'sqlite:///shorty.sqlite'
 
+LOGGING_LEVEL = 'INFO'
+LOGGING_FORMAT = '%(asctime)s %(levelname)-8s [%(name)-10s] %(message)s'
+LOGGING_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+LOGGING_FILE_DIR = '.'
+LOGGING_FILE_MAX_SIZE = 10*1024*1024
+
 try:
     from .local_settings import *
 except ImportError:

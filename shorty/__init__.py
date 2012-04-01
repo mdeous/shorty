@@ -18,16 +18,23 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 from shorty import settings
 from shorty.core import create_app, create_login_manager, setup_routing
+from shorty.core.log import getLogger
+
+logger = getLogger(__name__)
 
 # setup application
+logger.info("creating WSGI application")
 app = create_app(settings)
 
 # setup database
+logger.info("setting up SQLAlchemy")
 db = SQLAlchemy(app)
 
 # setup routes and blueprints
+logger.info("registering routes")
 from shorty.urls import routes
 setup_routing(app, routes)
 
 # setup the login manager
+logger.info("setting up login management")
 login_manager = create_login_manager(app)
