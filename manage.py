@@ -100,9 +100,9 @@ class RunCommand(Command):
 
 
 class RunServer(Server):
-    def handle(self, app, host, port, use_debugger, use_reloader):
+    def handle(self, app, *args, **kwargs):
         app.config['SQLALCHEMY_ECHO'] = True
-        super(RunServer, self).handle(app, host, port, use_debugger, use_reloader)
+        super(RunServer, self).handle(app, *args, **kwargs)
 
 
 class RunTornado(RunCommand):
