@@ -50,15 +50,12 @@ def setup_routing(app, routes):
 
 def create_app(settings_obj, **other_settings):
     from flask import Flask
-    from shorty.context_processors import static_files, login_form
     from shorty.template_filters import make_short_link
 
     app = Flask('shorty')
     app.config.from_object(settings_obj)
     for key, val in other_settings.iteritems():
         app.config[key] = val
-    app.context_processor(static_files)
-    app.context_processor(login_form)
     app.jinja_env.filters['make_short_link'] = make_short_link
     if app.debug and app.config['ENABLE_DEBUGTOOLBAR']:
         from flask.ext.debugtoolbar import DebugToolbarExtension
