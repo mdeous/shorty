@@ -17,7 +17,7 @@
 
 @font-face {
     font-family: bgrove;
-    src: url('bgrove.ttf');
+    src: url('../media/bgrove.ttf');
 }
 body {
     padding-top: 50px;
@@ -30,7 +30,7 @@ i.icon-home {
     text-align: center;
 }
 a.shorturl {
-    font-family: bgrove;
+    font-family: bgrove,serif;
 }
 .alert-block {
     text-align: left;

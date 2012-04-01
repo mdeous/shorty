@@ -15,15 +15,14 @@
     along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 #}
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html>
 <head>
     <title>Shorty - {% block title %}Simply URL shortening...{% endblock %}</title>
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="{{ BOOTSTRAP }}/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
 {#    <link rel="stylesheet" type="text/css" href="{{ BOOTSTRAP }}/css/bootstrap.min.responsive" />#}
-    <link rel="stylesheet" type="text/css" href="{{ CSS }}/shorty.css" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/shorty.css') }}" />
     {% block extra_css %}{% endblock %}
     <!-- END CSS -->
 </head>
@@ -55,12 +54,12 @@
 </div>
 </body>
 <!-- Javascript -->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript">
-    window.jQuery || document.write('<script type="text/javascript" src="{{ JS }}/jquery-1.7.1.min.js"><\/script>');
+    window.jQuery || document.write('<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.7.2.js') }}"><\/script>');
 </script>
-<script type="text/javascript" src="{{ BOOTSTRAP }}/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="{{ JS }}/shorty.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/shorty.js') }}"></script>
 {% block extra_js %}{% endblock %}
 <!-- END Javascript -->
 </html>
