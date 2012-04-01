@@ -15,9 +15,10 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
+from flask.ext.assets import ManageAssets
 from flask.ext.script import Command, Manager, Shell, Server, Option
 
-from shorty import app
+from shorty import app, assets
 
 manager = Manager(app)
 
@@ -125,4 +126,5 @@ manager.add_command('syncdb', SyncDB())
 manager.add_command('test', Test())
 manager.add_command('runserver', RunServer())
 manager.add_command('tornado', RunTornado())
+manager.add_command('assets', ManageAssets(assets))
 manager.run()

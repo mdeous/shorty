@@ -27,7 +27,7 @@ CSRF_SESSION_KEY = '_csrf_token'
 
 SQLALCHEMY_DATABASE_URI = 'sqlite:///shorty.sqlite'
 
-LOGGING_LEVEL = 'INFO'
+LOGGING_LEVEL = 'WARNING'
 LOGGING_FORMAT = '%(asctime)s %(levelname)s [%(name)s] %(message)s'
 LOGGING_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 LOGGING_FILE_DIR = '.'
