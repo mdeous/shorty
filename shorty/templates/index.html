@@ -54,7 +54,7 @@
             <param name="scale" value="noscale" />
             <param name="bgcolor" value="#ffffff" />
             <param NAME="FlashVars" value="text={{ short_link }}" />
-            <embed src="{{ MEDIA }}/clippy.swf"
+            <embed src="{{ url_for('static', filename='media/clippy.swf') }}"
                    width="110"
                    height="14"
                    name="clippy"
