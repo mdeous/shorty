@@ -4,4 +4,6 @@
 *~
 *.orig
 *.sqlite
+packed.*
+.webassets-cache/
 shorty/local_settings.py

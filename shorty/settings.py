@@ -18,6 +18,7 @@ BASE_URL = 'http://localhost:5000'
 
 DEBUG = True
 TESTING = False
+ASSETS_DEBUG = DEBUG
 ENABLE_DEBUGTOOLBAR = False
 
 SECRET_KEY = 'DuMmY sEcReT kEy'
@@ -31,6 +32,18 @@ LOGGING_FORMAT = '%(asctime)s %(levelname)s [%(name)s] %(message)s'
 LOGGING_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 LOGGING_FILE_DIR = '.'
 LOGGING_FILE_MAX_SIZE = 10*1024*1024
+
+RESOURCES = {
+    'css': [
+        'css/bootstrap.css',
+        'css/shorty.css'
+    ],
+    'js': [
+        'js/jquery-1.7.2.js',
+        'js/bootstrap.js',
+        'js/shorty.js'
+    ]
+}
 
 try:
     from .local_settings import *

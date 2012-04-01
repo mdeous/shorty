@@ -20,9 +20,12 @@
 <head>
     <title>Shorty - {% block title %}Simply URL shortening...{% endblock %}</title>
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    {% assets "css" %}
+        <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}" />
+    {% endassets %}
+{#    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />#}
 {#    <link rel="stylesheet" type="text/css" href="{{ BOOTSTRAP }}/css/bootstrap.min.responsive" />#}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/shorty.css') }}" />
+{#    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/shorty.css') }}" />#}
     {% block extra_css %}{% endblock %}
     <!-- END CSS -->
 </head>
@@ -54,12 +57,10 @@
 </div>
 </body>
 <!-- Javascript -->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script type="text/javascript">
-    window.jQuery || document.write('<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.7.2.js') }}"><\/script>');
-</script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/shorty.js') }}"></script>
-{% block extra_js %}{% endblock %}
+{% block js %}
+    {% assets "js" %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+{% endblock js %}
 <!-- END Javascript -->
 </html>

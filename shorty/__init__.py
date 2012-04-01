@@ -17,7 +17,7 @@
 from flask.ext.sqlalchemy import SQLAlchemy
 
 from shorty import settings
-from shorty.core import create_app, create_login_manager, setup_routing
+from shorty.core import create_app, create_login_manager, setup_routing, create_assets_manager
 from shorty.core.log import getLogger
 
 logger = getLogger(__name__)
@@ -38,3 +38,7 @@ setup_routing(app, routes)
 # setup the login manager
 logger.info("setting up login management")
 login_manager = create_login_manager(app)
+
+# setup static files
+logger.info("preparing static files")
+assets = create_assets_manager(app)

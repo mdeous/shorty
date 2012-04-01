@@ -1,6 +1,8 @@
 Flask==0.8
-Flask-WTF
-Flask-SQLAlchemy
-Flask-Script
-Flask-Login
+Flask-WTF==0.6
+Flask-SQLAlchemy==0.7.6
+Flask-Script==0.3.3
+Flask-Login==0.1
 SQLAlchemy==0.7.6
+Flask-Assets==0.6.2
+yuicompressor==2.4.6.1

@@ -16,6 +16,7 @@
 
 from flask import flash, redirect, url_for, request
 
+from shorty import settings
 from shorty.core.log import getLogger
 
 logger = getLogger(__name__)
@@ -90,3 +91,25 @@ def create_login_manager(app):
     login_manager.user_loader(lambda userid: User.query.get(int(userid)))
     login_manager.token_loader(lambda token: User.from_token(token))
     return login_manager
+
+def create_assets_manager(app):
+    from flask.ext.assets import Bundle, Environment
+
+    logger.debug("create_assets_manager(): generating bundle for CSS files")
+    assets_env = Environment(app)
+    css = Bundle(
+        *settings.RESOURCES['css'],
+        filters='yui_css',
+        output='css/packed.css'
+    )
+    assets_env.register('css', css)
+
+    logger.debug("create_assets_manager(): generating bundle for JavaScript files")
+    js = Bundle(
+        *settings.RESOURCES['js'],
+        filters='yui_js',
+        output='css/packed.js'
+    )
+    assets_env.register('js', js)
+
+    return assets_env
