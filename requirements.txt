@@ -3,4 +3,4 @@ Flask-WTF
 Flask-SQLAlchemy
 Flask-Script
 Flask-Login
-SQLAlchemy==0.7.5
+SQLAlchemy==0.7.6
