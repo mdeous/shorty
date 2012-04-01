@@ -24,8 +24,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from shorty import db
 from shorty.models import User
 from shorty.core.forms import RegisterForm, LoginForm
+from shorty.core.log import getLogger
 
 users = Blueprint('users', __name__)
+logger = getLogger(__name__)
 
 PASSWORD_REQUIREMENTS_STR = """
 <ul>
@@ -52,17 +54,21 @@ class LoginView(MethodView):
             return render_template(self.template,
                                    login_form=login_form,
                                    has_user_bar=False)
+        username = login_form.data['username']
         try:
-            user = User.query.filter_by(name=login_form.data['username']).one()
+            user = User.query.filter_by(name=username).one()
         except NoResultFound:
+            logger.warning("login attempt with unknown username '%s'" % username)
             flash("Invalid username or password", category='error')
             login_success = False
         else:
             if not check_password_hash(user.password, login_form.data['password']):
+                logger.warning("login failed for username '%s'" % username)
                 flash("Invalid username or password", category='error')
                 login_success = False
             else:
                 login_user(user)
+                logger.info("successful login for '%s'" % username)
                 flash("Log in successful", category='success')
         if login_success:
             return redirect(url_for('frontend.index'))
@@ -87,8 +93,9 @@ class RegisterView(MethodView):
             return render_template(self.template,
                                    reg_form=reg_form,
                                    has_user_bar=False)
+        username = reg_form.data['username']
         user_obj = User(
-            name=reg_form.data['username'],
+            name=username,
             email=reg_form.data['email'],
             password=generate_password_hash(reg_form.data['password']),
             active=True
@@ -97,9 +104,10 @@ class RegisterView(MethodView):
         try:
             db.session.commit()
         except IntegrityError:
-            #TODO: notify user about what fields are duplicate (or not?)
+            logger.info("failed registration attempt for '%s'" % username)
             flash('An user already exists with given details', category='error')
         else:
+            logger.info("user '%s' successfully registered" % username)
             flash('Registration complete. You can sign in.', category='info')
         return redirect(url_for('frontend.index'))
 

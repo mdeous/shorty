@@ -60,10 +60,6 @@ console_formatter = ColorFormatter(
     settings.LOGGING_FORMAT,
     settings.LOGGING_DATE_FORMAT
 )
-file_formatter = Formatter(
-    settings.LOGGING_FORMAT,
-    settings.LOGGING_DATE_FORMAT
-)
 
 # prepare handlers
 _handlers = []
@@ -72,15 +68,6 @@ console_handler = StreamHandler(stream=sys.stdout)
 console_handler.setFormatter(console_formatter)
 console_handler.setLevel(settings.LOGGING_LEVEL)
 _handlers.append(console_handler)
-
-logfile_path = os.path.join(settings.LOGGING_FILE_DIR, 'shorty.log')
-file_handler = RotatingFileHandler(logfile_path,
-    maxBytes=settings.LOGGING_FILE_MAX_SIZE,
-    backupCount=2
-)
-file_handler.setFormatter(file_formatter)
-file_handler.setLevel(settings.LOGGING_LEVEL)
-_handlers.append(file_handler)
 
 # configure logging
 logger = getLogger()

@@ -14,10 +14,15 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import flash, redirect, url_for
+from flask import flash, redirect, url_for, request
+
+from shorty.core.log import getLogger
+
+logger = getLogger(__name__)
 
 
 def _unauthorized_callback():
+    logger.warning("%s: unauthorized access attempt" % request.endpoint)
     flash("You must be logged in to view this page.", category='error')
     return redirect(url_for('frontend.index'))
 
@@ -45,8 +50,16 @@ def setup_routing(app, routes):
                 app.add_url_rule(pattern, view_func=view)
             else:
                 endpoint[0].add_url_rule(pattern, view_func=view)
+            logger.debug("setup_routing(): adding '%s' view for %s" % (
+                view.func_name, pattern
+            ))
         if endpoint is not None:
-            app.register_blueprint(endpoint[0], url_prefix=endpoint[1])
+            bp, prefix = endpoint
+            msg_suffix = (' on %s' % prefix) if prefix else ' on /'
+            logger.debug("setup_routing(): mounting '%s' blueprint%s" % (
+                bp.name, msg_suffix
+            ))
+            app.register_blueprint(bp, url_prefix=prefix)
 
 def create_app(settings_obj, **other_settings):
     from flask import Flask

@@ -20,11 +20,13 @@ from flask.ext.login import current_user, AnonymousUser
 from sqlalchemy.orm.exc import NoResultFound
 
 from shorty import db
-from shorty.models import ShortURL, User
-from shorty.core.shortener import UrlEncoder, EncoderError
 from shorty.core.forms import URLForm
+from shorty.core.log import getLogger
+from shorty.core.shortener import UrlEncoder, EncoderError
+from shorty.models import ShortURL, User
 
 frontend = Blueprint('frontend', __name__)
+logger = getLogger(__name__)
 
 
 class IndexView(MethodView):
@@ -49,6 +51,7 @@ class IndexView(MethodView):
             url_obj = ShortURL(long_url=url)
             db.session.add(url_obj)
             pending_commit = True
+        logger.info("shortened url: %s" % url)
         creator = current_user
         if not creator.is_authenticated():
             # anonymous user always has id==1 as it's created when db is set up
@@ -69,11 +72,13 @@ class ShortLinkRedirectView(View):
     methods = ['GET']
 
     def dispatch_request(self, short_code):
+        url_code = short_code.split('/')[-1] if ('/' in short_code) else short_code
         try:
-            url_code = short_code.split('/')[-1] if ('/' in short_code) else short_code
             url_id = UrlEncoder().decode_id(url_code)
             url_obj = ShortURL.query.get(url_id)
+            logger.info("expanded '%s' to %s" % (url_code, url_obj.long_url))
             return redirect(url_obj.long_url)
         except (EncoderError, AttributeError):
+            logger.warning("failed to expand '%s'" % url_code)
             flash('Invalid short URL', category='error')
             return redirect(url_for('frontend.index'))
