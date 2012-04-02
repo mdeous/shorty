@@ -21,6 +21,7 @@ from shorty.models import ShortURL
 
 api = Blueprint('api', __name__)
 
+
 class ResolveView(MethodView):
     def get(self, short_code):
         try:
@@ -31,4 +32,4 @@ class ResolveView(MethodView):
         except EncoderError:
             ret = { 'errors':  ['Unknow short URL'] }
         return jsonify(ret)
-
+api.add_url_rule('/resolve/<short_code>', view_func=ResolveView.as_view('resolve'))

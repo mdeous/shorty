@@ -15,7 +15,6 @@
 #    along with Shorty.  If not, see <http://www.gnu.org/licenses/>.
 
 from flask import *
-from flask.views import MethodView
 from flask.ext.login import current_user, login_user, logout_user
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
@@ -39,22 +38,18 @@ PASSWORD_REQUIREMENTS_STR = """
 """
 
 
-class LoginView(MethodView):
-    template = 'users/login.html'
+@users.route('/login', methods=('GET', 'POST'))
+def login():
+    tpl = 'users/login.html'
+    form = LoginForm()
 
-    def get(self):
-        return render_template(self.template,
-                               login_form=LoginForm(),
-                               has_user_bar=False)
-
-    def post(self):
+    if request.method == 'POST':
         login_success = True
-        login_form = LoginForm()
-        if not login_form.validate_on_submit():
-            return render_template(self.template,
-                                   login_form=login_form,
-                                   has_user_bar=False)
-        username = login_form.data['username']
+        if not form.validate_on_submit():
+            return render_template(tpl,
+                login_form=form
+            )
+        username = form.data['username']
         try:
             user = User.query.filter_by(name=username).one()
         except NoResultFound:
@@ -62,7 +57,7 @@ class LoginView(MethodView):
             flash("Invalid username or password", category='error')
             login_success = False
         else:
-            if not check_password_hash(user.password, login_form.data['password']):
+            if not check_password_hash(user.password, form.data['password']):
                 logger.warning("login failed for username '%s'" % username)
                 flash("Invalid username or password", category='error')
                 login_success = False
@@ -72,32 +67,29 @@ class LoginView(MethodView):
                 flash("Log in successful", category='success')
         if login_success:
             return redirect(url_for('frontend.index'))
-        else:
-            return render_template(self.template,
-                                   login_form=login_form,
-                                   has_user_bar=False)
+        return render_template(tpl,
+            login_form=form
+        )
 
+    return render_template(tpl,
+        login_form=form,
+    )
 
-class RegisterView(MethodView):
-    template = 'users/register.html'
+@users.route('/register', methods=('GET', 'POST'))
+def register():
+    tpl = 'users/register.html'
+    form = RegisterForm()
 
-    def get(self):
-        return render_template(self.template,
-                               reg_form=RegisterForm(),
-                               password_requirements=PASSWORD_REQUIREMENTS_STR,
-                               has_user_bar=False)
-
-    def post(self):
-        reg_form = RegisterForm()
-        if not reg_form.validate_on_submit():
-            return render_template(self.template,
-                                   reg_form=reg_form,
-                                   has_user_bar=False)
-        username = reg_form.data['username']
+    if request.method == 'POST':
+        if not form.validate_on_submit():
+            return render_template(tpl,
+                reg_form=form
+            )
+        username = form.data['username']
         user_obj = User(
             name=username,
-            email=reg_form.data['email'],
-            password=generate_password_hash(reg_form.data['password']),
+            email=form.data['email'],
+            password=generate_password_hash(form.data['password']),
             active=True
         )
         db.session.add(user_obj)
@@ -111,31 +103,31 @@ class RegisterView(MethodView):
             flash('Registration complete. You can sign in.', category='info')
         return redirect(url_for('frontend.index'))
 
+    return render_template(tpl,
+        reg_form=form,
+        password_requirements=PASSWORD_REQUIREMENTS_STR
+    )
 
-class LogoutView(MethodView):
-    def post(self):
-        if current_user.is_authenticated():
-            logout_user()
-            flash("Successfuly logged out", category='success')
-        else:
-            flash("You're not authenticated", category='error')
-        return ''
+@users.route('/logout', methods=('POST',))
+def logout():
+    if current_user.is_authenticated():
+        logout_user()
+        logger.info("user '%s' logged out" % current_user.username)
+        flash("Successfully logged out", category='success')
+    else:
+        logger.info("logout attempt from unauthenticated user")
+        flash("You're not authenticated", category='error')
+    return ''
 
+@users.route('/profile')
+def profile():
+    return render_template('users/profile.html',
+        current_user=current_user
+    )
 
-
-class ProfileView(MethodView):
-    template = 'users/profile.html'
-
-    def get(self):
-        return render_template(self.template, user=current_user)
-
-    def post(self):
-        return redirect(url_for('users.profile'))
-
-
-class LinksView(MethodView):
-    template = 'users/links.html'
-
-    def get(self, link_id=None):
-        links = current_user.shorturls.all()
-        return render_template(self.template, links=links)
+@users.route('/links')
+def links():
+    links = current_user.shorturls.all()
+    return render_template('users/links.html',
+        links=links
+    )

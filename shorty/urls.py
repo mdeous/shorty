@@ -16,29 +16,14 @@
 
 from flask.ext.login import login_required
 
-from shorty.views.frontend import frontend, IndexView, ShortLinkRedirectView
-from shorty.views.users import (users,
-                                LoginView,
-                                RegisterView,
-                                LogoutView,
-                                ProfileView,
-                                LinksView,
-                                )
+#from shorty.views.frontend import frontend, IndexView, ShortLinkRedirectView
 from shorty.views.api import api, ResolveView
 
 routes = [
-    ((frontend, ''),
-        ('/', IndexView.as_view('index')),
-        ('/<short_code>', ShortLinkRedirectView.as_view('redir')),
-    ),
-    ((users, '/user'),
-        ('/login', LoginView.as_view('login')),
-        ('/logout', LogoutView.as_view('logout')),
-        ('/register', RegisterView.as_view('register')),
-        ('/profile', login_required(ProfileView.as_view('profile'))),
-        ('/links', login_required(LinksView.as_view('links'))),
-        ('/links/<int:link_id>', login_required(LinksView.as_view('links'))),
-    ),
-    ((api, '/api'),
-        ('/resolve/<short_code>', ResolveView.as_view('resolve'))),
+#    ((frontend, ''),
+#        ('/', IndexView.as_view('index')),
+#        ('/<short_code>', ShortLinkRedirectView.as_view('redir')),
+#    ),
+#    ((api, '/api'),
+#        ('/resolve/<short_code>', ResolveView.as_view('resolve'))),
 ]

@@ -29,22 +29,19 @@ frontend = Blueprint('frontend', __name__)
 logger = getLogger(__name__)
 
 
-class IndexView(MethodView):
-    template = 'index.html'
+@frontend.route('/', methods=('GET', 'POST'))
+def index():
+    tpl = 'index.html'
+    form = URLForm()
 
-    def get(self):
-        url_form = URLForm()
-        return render_template(self.template,
-                               url_form=url_form)
-
-    def post(self):
+    if request.method == 'POST':
+        if not form.validate_on_submit():
+            return render_template(tpl,
+                url_form=form,
+                current_user=current_user
+            )
         pending_commit = False
-        url_form = URLForm()
-        if not url_form.validate_on_submit():
-            return render_template(self.template,
-                                   url_form=url_form,
-                                   current_user=current_user)
-        url = url_form.data['url']
+        url = form.data['url']
         try:
             url_obj = ShortURL.query.filter_by(long_url=url).one()
         except NoResultFound:
@@ -62,23 +59,25 @@ class IndexView(MethodView):
             pending_commit = True
         if pending_commit:
             db.session.commit()
-        return render_template(self.template,
-                               url_form=url_form,
-                               url_id=url_obj.id,
-                               current_user=current_user)
+        return render_template(tpl,
+            url_form=form,
+            url_id=url_obj.id,
+            current_user=current_user
+        )
 
+    return render_template(tpl,
+        url_form=form
+    )
 
-class ShortLinkRedirectView(View):
-    methods = ['GET']
-
-    def dispatch_request(self, short_code):
-        url_code = short_code.split('/')[-1] if ('/' in short_code) else short_code
-        try:
-            url_id = UrlEncoder().decode_id(url_code)
-            url_obj = ShortURL.query.get(url_id)
-            logger.info("expanded '%s' to %s" % (url_code, url_obj.long_url))
-            return redirect(url_obj.long_url)
-        except (EncoderError, AttributeError):
-            logger.warning("failed to expand '%s'" % url_code)
-            flash('Invalid short URL', category='error')
-            return redirect(url_for('frontend.index'))
+@frontend.route('/<short_code>')
+def redir(short_code):
+    url_code = short_code.split('/')[-1] if ('/' in short_code) else short_code
+    try:
+        url_id = UrlEncoder().decode_id(url_code)
+        url_obj = ShortURL.query.get(url_id)
+        logger.info("expanded '%s' to %s" % (url_code, url_obj.long_url))
+        return redirect(url_obj.long_url)
+    except (EncoderError, AttributeError):
+        logger.warning("failed to expand '%s'" % url_code)
+        flash('Invalid short URL', category='error')
+    return redirect(url_for('frontend.index'))

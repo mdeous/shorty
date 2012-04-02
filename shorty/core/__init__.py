@@ -27,40 +27,22 @@ def _unauthorized_callback():
     flash("You must be logged in to view this page.", category='error')
     return redirect(url_for('frontend.index'))
 
-def setup_routing(app, routes):
-    """
-    Registers :class:`flask.Blueprint` instances and adds routes all at once.
+def setup_routing(app):
+    from shorty.views.frontend import frontend
+    from shorty.views.users import users
+    from shorty.views.api import api
 
-    :param app: The current application.
-    :type app: flask.Flask.
-    :param routes: The routes definition in the format:
-        ((blueprint_instance, url_prefix),
-            ('/route1/<param>', view_function1),
-            ('/route2', view_function2),
-            ...
-        )
-    :type routes: list.
-    :returns: None
-    """
-    for route in routes:
-        # endpoint: (blueprint_instance, url_prefix)
-        # rules: [('/route/', view_function), ...]
-        endpoint, rules = route[0], route[1:]
-        for pattern, view in rules:
-            if endpoint is None:
-                app.add_url_rule(pattern, view_func=view)
-            else:
-                endpoint[0].add_url_rule(pattern, view_func=view)
-            logger.debug("setup_routing(): adding '%s' view for %s" % (
-                view.func_name, pattern
-            ))
-        if endpoint is not None:
-            bp, prefix = endpoint
-            msg_suffix = (' on %s' % prefix) if prefix else ' on /'
-            logger.debug("setup_routing(): mounting '%s' blueprint%s" % (
-                bp.name, msg_suffix
-            ))
-            app.register_blueprint(bp, url_prefix=prefix)
+    blueprints = (
+        (frontend, None),
+        (users, '/users'),
+        (api, '/api')
+    )
+    for blueprint, prefix in blueprints:
+        _msg_suffix = (' on %s' % prefix) if (prefix is not None) else ' on /'
+        logger.debug("setup_routing(): mounting '%s' blueprint%s" % (
+            blueprint.name, _msg_suffix
+        ))
+        app.register_blueprint(blueprint, url_prefix=prefix)
 
 def create_app(settings_obj, **other_settings):
     from flask import Flask

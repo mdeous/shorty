@@ -32,8 +32,7 @@ db = SQLAlchemy(app)
 
 # setup routes and blueprints
 logger.info("registering routes")
-from shorty.urls import routes
-setup_routing(app, routes)
+setup_routing(app)
 
 # setup the login manager
 logger.info("setting up login management")

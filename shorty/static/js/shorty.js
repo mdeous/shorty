@@ -27,7 +27,7 @@ $(document).ready(function() {
     // let's transform the link click into a POST then...
     $('.logout_link').click(function() {
         // XXX: url is hardcoded, would it be better to put this code in a template?
-        $.post('/user/logout', function() {
+        $.post('/users/logout', function() {
             window.location.href = '/';
         });
     });
