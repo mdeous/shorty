@@ -52,10 +52,17 @@ def create_app(settings_obj, **other_settings):
     app.config.from_object(settings_obj)
     for key, val in other_settings.iteritems():
         app.config[key] = val
+    logger.debug("create_app(): adding 'make_short_link' template filter")
     app.jinja_env.filters['make_short_link'] = make_short_link
-    if app.debug and app.config['ENABLE_DEBUGTOOLBAR']:
-        from flask.ext.debugtoolbar import DebugToolbarExtension
-        dt = DebugToolbarExtension(app)
+    if app.debug and app.config['DEBUG_TB_ENABLED']:
+        logger.debug("create_app(): trying to enable the debug toolbar")
+        try:
+            from flask_debugtoolbar import DebugToolbarExtension
+            logger.debug("create_app(): debug toolbar enabled")
+        except ImportError:
+            logger.warning("create_app(): failed to enable the debug toolbar")
+            DebugToolbarExtension = lambda app: None
+        fdt = DebugToolbarExtension(app)
     return app
 
 def create_login_manager(app):
