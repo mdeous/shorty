@@ -17,6 +17,11 @@
 
 from flask.ext.assets import ManageAssets
 from flask.ext.script import Command, Manager, Shell, Server, Option
+try:
+    from gevent.wsgi import WSGIServer
+    has_gevent = True
+except ImportError:
+    has_gevent = False
 
 from shorty import app, assets
 
@@ -75,48 +80,16 @@ class Test(Command):
         runner.run(test_suite)
 
 
-class RunCommand(Command):
-    """
-    Base class for commands used to run the application (ie. takes options
-    to specify the host/port).
-    """
-    def __init__(self, host='localhost', port=5000):
-        self.host = host
-        self.port = port
-
-    def get_options(self):
-        options = (
-            Option('-t', '--host',
-                   dest='host',
-                   default=self.host),
-            Option('-p', '--port',
-                   dest='port',
-                   type=int,
-                   default=self.port),
-        )
-        return options
-
-    def run(self, host, port):
-        raise NotImplementedError
-
-
 class RunServer(Server):
     def handle(self, app, *args, **kwargs):
         app.config['SQLALCHEMY_ECHO'] = True
-        super(RunServer, self).handle(app, *args, **kwargs)
-
-
-class RunTornado(RunCommand):
-    """
-    Serves the application using Tornado.
-    """
-    def run(self, host, port):
-        from tornado.wsgi import WSGIContainer
-        from tornado.httpserver import HTTPServer
-        from tornado.ioloop import IOLoop
-        http_server = HTTPServer(WSGIContainer(app))
-        http_server.listen(port=port, address=host)
-        IOLoop.instance().start()
+        if has_gevent:
+            host = kwargs.get('host') or args[0]
+            port = kwargs.get('port') or args[1]
+            server = WSGIServer((host, port), app)
+            server.serve_forever()
+        else:
+            super(RunServer, self).handle(app, *args, **kwargs)
 
 
 del manager._commands['shell']
@@ -125,6 +98,5 @@ manager.add_command('shell', FixedShell())
 manager.add_command('syncdb', SyncDB())
 manager.add_command('test', Test())
 manager.add_command('runserver', RunServer())
-manager.add_command('tornado', RunTornado())
 manager.add_command('assets', ManageAssets(assets))
 manager.run()
