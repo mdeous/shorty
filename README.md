@@ -1,3 +1,5 @@
+[![Flattr this repo!](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=mattoufoutu&url=https://github.com/mattoufoutu/shorty&title=shorty&language=&tags=github&category=software)
+
 ## Introduction
 
 Shorty is an URL shortener written in Python using the Flask framework.
